@@ -11,4 +11,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Libreria.Models\Libreria.Models.csproj" />
+    <ProjectReference Include="..\Libreria.BusinessLogicLayer\Libreria.BusinessLogicLayer.csproj" />
+  </ItemGroup>
+
 </Project>

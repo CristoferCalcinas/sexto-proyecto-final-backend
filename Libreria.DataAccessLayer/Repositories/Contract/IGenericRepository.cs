@@ -3,7 +3,7 @@ namespace Libreria.DataAccessLayer.Repositories.Contract;
 public interface IGenericRepository<T> where T : class
 {
     // Operaciones básicas de consulta
-    Task<IEnumerable<T>> GetAllAsync();
+    Task<IQueryable<T>> GetAllAsync();
     Task<T> GetByIdAsync(int id);
 
     // Operaciones de creación, actualización y eliminación

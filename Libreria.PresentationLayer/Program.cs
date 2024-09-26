@@ -17,10 +17,12 @@ builder.Services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(
 
 builder.Services.AddScoped<IGenericRepository<Promocione>, PromocionesRepository>();
 builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();
+builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
 
 
 builder.Services.AddScoped<IPromocionesService, PromocionesService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
+builder.Services.AddScoped<IProductosService, ProductosService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

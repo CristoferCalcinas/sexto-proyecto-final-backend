@@ -11,27 +11,27 @@ public class ProveedorService : IProveedorService
     {
         _genericRepository = genericRepository;
     }
-    public Task<Proveedor> AddPromocion(Proveedor proveedor)
+    public async Task<Proveedor> AddProveedor(Proveedor proveedor)
     {
-        return _genericRepository.AddAsync(proveedor);
+        return await _genericRepository.AddAsync(proveedor);
     }
 
-    public Task<Proveedor> DeletePromocion(int id)
+    public async Task<Proveedor> DeleteProveedor(int id)
     {
-        return _genericRepository.DeleteAsync(id);
+        return await _genericRepository.DeleteAsync(id);
     }
 
-    public Task<IQueryable<Proveedor>> GetAllPromociones()
+    public async Task<IQueryable<Proveedor>> GetAllProveedores()
     {
-        return _genericRepository.GetAllAsync();
+        return await _genericRepository.GetAllAsync();
     }
 
-    public Task<Proveedor> GetPromocionById(int id)
+    public async Task<Proveedor> GetProveedorById(int id)
     {
-        return _genericRepository.GetByIdAsync(id);
+        return await _genericRepository.GetByIdAsync(id);
     }
 
-    public Task<Proveedor> UpdatePromocion(Proveedor proveedor)
+    public Task<Proveedor> UpdateProveedor(Proveedor proveedor)
     {
         return _genericRepository.UpdateAsync(proveedor);
     }

@@ -4,9 +4,9 @@ namespace Libreria.BusinessLogicLayer.Servicios.Contracts;
 
 public interface IProveedorService
 {
-    Task<IQueryable<Proveedor>> GetAllPromociones();
-    Task<Proveedor> GetPromocionById(int id);
-    Task<Proveedor> AddPromocion(Proveedor proveedor);
-    Task<Proveedor> DeletePromocion(int id);
-    Task<Proveedor> UpdatePromocion(Proveedor proveedor);
+    Task<IQueryable<Proveedor>> GetAllProveedores();
+    Task<Proveedor> AddProveedor(Proveedor proveedor);
+    Task<Proveedor> DeleteProveedor(int id);
+    Task<Proveedor> GetProveedorById(int id);
+    Task<Proveedor> UpdateProveedor(Proveedor proveedor);
 }

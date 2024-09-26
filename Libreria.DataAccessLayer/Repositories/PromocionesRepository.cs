@@ -1,5 +1,6 @@
 using Libreria.DataAccessLayer.DataContext;
 using Libreria.DataAccessLayer.Repositories.Contract;
+using Libreria.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;

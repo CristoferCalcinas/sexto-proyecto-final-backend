@@ -22,6 +22,7 @@ builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PredidoProveedor
 builder.Services.AddScoped<IGenericRepository<Inventario>, InventarioRepository>();
 builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
 builder.Services.AddScoped<IGenericRepository<DetallePedidoProveedor>, DetallePedidoProveedorRepository>();
+builder.Services.AddScoped<IGenericRepository<DetalleCompra>, DetalleCompraRepository>();
 
 
 builder.Services.AddScoped<IPromocionesService, PromocionesService>();
@@ -31,6 +32,7 @@ builder.Services.AddScoped<IPedidoProveedorService, PedidoProveedorService>();
 builder.Services.AddScoped<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
 builder.Services.AddScoped<IDetallePedidoProveedorService, DetallePedidoProveedorService>();
+builder.Services.AddScoped<IDetalleCompraService, DetalleCompraService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

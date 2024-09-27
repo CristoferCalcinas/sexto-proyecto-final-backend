@@ -26,16 +26,16 @@ public class PredidoProveedorRepository : IGenericRepository<PedidoProveedor>
         }
     }
 
-    public Task<PedidoProveedor> DeleteAsync(int id)
+    public async Task<PedidoProveedor> DeleteAsync(int id)
     {
         try
         {
-            var pedidoToDelete = _context.PedidoProveedors.Find(id);
+            var pedidoToDelete = await _context.PedidoProveedors.FindAsync(id);
             if (pedidoToDelete != null)
             {
                 _context.PedidoProveedors.Remove(pedidoToDelete);
-                _context.SaveChanges();
-                return Task.FromResult(pedidoToDelete);
+                await _context.SaveChangesAsync();
+                return pedidoToDelete;
             }
             throw new Exception("Pedido no encontrado");
         }
@@ -45,11 +45,11 @@ public class PredidoProveedorRepository : IGenericRepository<PedidoProveedor>
         }
     }
 
-    public Task<List<TResult>> ExecuteQueryAsync<TResult>(string query) where TResult : class
+    public async Task<List<TResult>> ExecuteQueryAsync<TResult>(string query) where TResult : class
     {
         try
         {
-            return _context.Set<TResult>().FromSqlRaw(query).ToListAsync();
+            return await _context.Set<TResult>().FromSqlRaw(query).ToListAsync();
         }
         catch (Exception ex)
         {

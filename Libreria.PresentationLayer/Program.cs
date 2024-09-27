@@ -28,6 +28,7 @@ builder.Services.AddScoped<IGenericRepository<Cupone>, CuponesRepository>();
 builder.Services.AddScoped<IGenericRepository<Compra>, CompraRepository>();
 builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
 builder.Services.AddScoped<IGenericRepository<Categoría>, CategoríaRepository>();
+builder.Services.AddScoped<IGenericRepository<CarritoCompra>, CarritoCompraRepository>();
 
 
 builder.Services.AddScoped<IPromocionesService, PromocionesService>();
@@ -43,6 +44,7 @@ builder.Services.AddScoped<ICuponesService, CuponesService>();
 builder.Services.AddScoped<IComprasService, ComprasService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<ICategoríaService, CategoríaService>();
+builder.Services.AddScoped<ICarritoCompraService, CarritoCompraService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

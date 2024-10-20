@@ -57,6 +57,32 @@ CREATE TABLE
         PRIMARY KEY (Id)
     );
 
+-- Tabla Proveedor
+CREATE TABLE
+    Proveedor (
+        Id INT IDENTITY (1, 1) NOT NULL,
+        Telefono NVARCHAR (15),
+        CorreoElectronico NVARCHAR (100),
+        Direccion NVARCHAR (255),
+        PRIMARY KEY (Id)
+    );
+
+-- Tabla Producto
+CREATE TABLE
+    Producto (
+        Id INT IDENTITY (1, 1) NOT NULL,
+        NombreProducto NVARCHAR (100) NOT NULL,
+        Descripcion NVARCHAR (255),
+        Precio DECIMAL(10, 2) NOT NULL,
+        CantidadStock INT NOT NULL,
+        CategoriaID INT NOT NULL,
+        FechaIngreso DATE NOT NULL,
+        ProveedorID INT NOT NULL,
+        PRIMARY KEY (Id),
+        CONSTRAINT FK_Producto_Categoria FOREIGN KEY (CategoriaID) REFERENCES Categoria (Id),
+        CONSTRAINT FK_Producto_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
+    );
+
 -- Tabla DetalleCarrito
 CREATE TABLE
     DetalleCarrito (
@@ -82,6 +108,18 @@ CREATE TABLE
         PRIMARY KEY (Id),
         CONSTRAINT FK_DetalleCompra_Compra FOREIGN KEY (CompraID) REFERENCES Compra (Id),
         CONSTRAINT FK_DetalleCompra_Producto FOREIGN KEY (ProductoID) REFERENCES Producto (Id)
+    );
+
+-- Tabla PedidoProveedor
+CREATE TABLE
+    PedidoProveedor (
+        Id INT IDENTITY (1, 1) NOT NULL,
+        ProveedorID INT NOT NULL,
+        FechaPedido DATE NOT NULL,
+        EstadoPedido NVARCHAR (50) NOT NULL,
+        TotalPedido DECIMAL(10, 2) NOT NULL,
+        PRIMARY KEY (Id),
+        CONSTRAINT FK_PedidoProveedor_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
     );
 
 -- Tabla DetallePedidoProveedor
@@ -123,34 +161,6 @@ CREATE TABLE
         CONSTRAINT FK_Inventario_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
     );
 
--- Tabla PedidoProveedor
-CREATE TABLE
-    PedidoProveedor (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        ProveedorID INT NOT NULL,
-        FechaPedido DATE NOT NULL,
-        EstadoPedido NVARCHAR (50) NOT NULL,
-        TotalPedido DECIMAL(10, 2) NOT NULL,
-        PRIMARY KEY (Id),
-        CONSTRAINT FK_PedidoProveedor_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
-    );
-
--- Tabla Producto
-CREATE TABLE
-    Producto (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        NombreProducto NVARCHAR (100) NOT NULL,
-        Descripcion NVARCHAR (255),
-        Precio DECIMAL(10, 2) NOT NULL,
-        CantidadStock INT NOT NULL,
-        CategoriaID INT NOT NULL,
-        FechaIngreso DATE NOT NULL,
-        ProveedorID INT NOT NULL,
-        PRIMARY KEY (Id),
-        CONSTRAINT FK_Producto_Categoria FOREIGN KEY (CategoriaID) REFERENCES Categoria (Id),
-        CONSTRAINT FK_Producto_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
-    );
-
 -- Tabla Promocion
 CREATE TABLE
     Promocion (
@@ -163,16 +173,6 @@ CREATE TABLE
         ProductoID INT NOT NULL,
         PRIMARY KEY (Id),
         CONSTRAINT FK_Promocion_Producto FOREIGN KEY (ProductoID) REFERENCES Producto (Id)
-    );
-
--- Tabla Proveedor
-CREATE TABLE
-    Proveedor (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        Telefono NVARCHAR (15),
-        CorreoElectronico NVARCHAR (100),
-        Direccion NVARCHAR (255),
-        PRIMARY KEY (Id)
     );
 
 -- Nuevas tablas agregadas

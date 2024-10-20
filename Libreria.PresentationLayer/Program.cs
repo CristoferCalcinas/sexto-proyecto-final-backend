@@ -15,6 +15,11 @@ builder.Services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("ConnectionString")
 ));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAnyOrigin", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+});
+
 builder.Services.AddScoped<IGenericRepository<Promocione>, PromocionesRepository>();
 builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
@@ -61,6 +66,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Aplicar política CORS
+app.UseCors("AllowAnyOrigin");
 
 app.MapControllers();
 

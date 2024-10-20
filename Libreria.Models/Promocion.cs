@@ -1,6 +1,6 @@
 ﻿namespace Libreria.Models;
 
-public partial class Promocione
+public partial class Promocion
 {
     public int Id { get; set; }
 
@@ -14,7 +14,7 @@ public partial class Promocione
 
     public decimal Descuento { get; set; }
 
-    public int ProductosAplicados { get; set; }
+    public int ProductoId { get; set; }
 
-    public virtual Producto ProductosAplicadosNavigation { get; set; } = null!;
+    public virtual Producto Producto { get; set; } = null!;
 }

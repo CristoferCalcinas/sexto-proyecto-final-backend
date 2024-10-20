@@ -6,11 +6,11 @@ public partial class Empleado
 
     public string NombreEmpleado { get; set; } = null!;
 
-    public string CorreoElectrónico { get; set; } = null!;
+    public string CorreoElectronico { get; set; } = null!;
 
-    public string Teléfono { get; set; } = null!;
+    public string Telefono { get; set; } = null!;
 
     public string Cargo { get; set; } = null!;
 
-    public DateOnly FechaContratación { get; set; }
+    public DateOnly FechaContratacion { get; set; }
 }

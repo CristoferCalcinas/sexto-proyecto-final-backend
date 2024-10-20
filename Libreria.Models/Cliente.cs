@@ -6,13 +6,13 @@ public partial class Cliente
 
     public string NombreCliente { get; set; } = null!;
 
-    public string CorreoElectrónico { get; set; } = null!;
+    public string CorreoElectronico { get; set; } = null!;
 
     public DateOnly FechaRegistro { get; set; }
 
-    public virtual ICollection<CarritoCompra> CarritoCompras { get; set; } = new List<CarritoCompra>();
+    public virtual ICollection<Carrito> Carritos { get; set; } = new List<Carrito>();
 
     public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
 
-    public virtual ICollection<Cupone> Cupones { get; set; } = new List<Cupone>();
+    public virtual ICollection<DireccionCliente> DireccionClientes { get; set; } = new List<DireccionCliente>();
 }

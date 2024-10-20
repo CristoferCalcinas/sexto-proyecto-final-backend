@@ -15,4 +15,6 @@ public partial class Compra
     public virtual Cliente Cliente { get; set; } = null!;
 
     public virtual ICollection<DetalleCompra> DetalleCompras { get; set; } = new List<DetalleCompra>();
+
+    public virtual ICollection<Envio> Envios { get; set; } = new List<Envio>();
 }

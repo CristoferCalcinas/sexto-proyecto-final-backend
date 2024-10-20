@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Libreria.Models;
+﻿using Libreria.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.DataContext;
@@ -16,15 +14,15 @@ public partial class LibreriaContext : DbContext
     {
     }
 
-    public virtual DbSet<CarritoCompra> CarritoCompras { get; set; }
+    public virtual DbSet<Carrito> Carritos { get; set; }
 
-    public virtual DbSet<Categoría> Categorías { get; set; }
+    public virtual DbSet<Categorium> Categoria { get; set; }
 
     public virtual DbSet<Cliente> Clientes { get; set; }
 
     public virtual DbSet<Compra> Compras { get; set; }
 
-    public virtual DbSet<Cupone> Cupones { get; set; }
+    public virtual DbSet<Cupon> Cupons { get; set; }
 
     public virtual DbSet<DetalleCarrito> DetalleCarritos { get; set; }
 
@@ -32,7 +30,11 @@ public partial class LibreriaContext : DbContext
 
     public virtual DbSet<DetallePedidoProveedor> DetallePedidoProveedors { get; set; }
 
+    public virtual DbSet<DireccionCliente> DireccionClientes { get; set; }
+
     public virtual DbSet<Empleado> Empleados { get; set; }
+
+    public virtual DbSet<Envio> Envios { get; set; }
 
     public virtual DbSet<Inventario> Inventarios { get; set; }
 
@@ -40,72 +42,59 @@ public partial class LibreriaContext : DbContext
 
     public virtual DbSet<Producto> Productos { get; set; }
 
-    public virtual DbSet<Promocione> Promociones { get; set; }
+    public virtual DbSet<Promocion> Promocions { get; set; }
 
     public virtual DbSet<Proveedor> Proveedors { get; set; }
+
+    public virtual DbSet<Sucursal> Sucursals { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Server=localhost,1433;Database=Libreria;User Id=sa;Password=Sinclave1!;Encrypt=False;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CarritoCompra>(entity =>
+        modelBuilder.Entity<Carrito>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Carrito___3214EC07A1880262");
+            entity.HasKey(e => e.Id).HasName("PK__Carrito__3214EC07E24742BB");
 
-            entity.ToTable("Carrito_Compras");
+            entity.ToTable("Carrito");
 
-            entity.Property(e => e.ClienteId).HasColumnName("Cliente_ID");
-            entity.Property(e => e.EstadoCarrito)
-                .HasMaxLength(50)
-                .HasColumnName("Estado_Carrito");
-            entity.Property(e => e.FechaCreación).HasColumnName("Fecha_Creación");
+            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
+            entity.Property(e => e.EstadoCarrito).HasMaxLength(50);
 
-            entity.HasOne(d => d.Cliente).WithMany(p => p.CarritoCompras)
+            entity.HasOne(d => d.Cliente).WithMany(p => p.Carritos)
                 .HasForeignKey(d => d.ClienteId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Carrito_Compras_Cliente");
+                .HasConstraintName("FK_Carrito_Cliente");
         });
 
-        modelBuilder.Entity<Categoría>(entity =>
+        modelBuilder.Entity<Categorium>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Categorí__3214EC07763E2BDD");
-
-            entity.ToTable("Categoría");
+            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC074192B1D3");
 
             entity.Property(e => e.Descripcion).HasMaxLength(255);
-            entity.Property(e => e.NombreCategoria)
-                .HasMaxLength(100)
-                .HasColumnName("Nombre_Categoria");
+            entity.Property(e => e.NombreCategoria).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Cliente>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Cliente__3214EC07D6F96D2C");
+            entity.HasKey(e => e.Id).HasName("PK__Cliente__3214EC0704A15C1A");
 
             entity.ToTable("Cliente");
 
-            entity.Property(e => e.CorreoElectrónico)
-                .HasMaxLength(100)
-                .HasColumnName("Correo_Electrónico");
-            entity.Property(e => e.FechaRegistro).HasColumnName("Fecha_Registro");
-            entity.Property(e => e.NombreCliente)
-                .HasMaxLength(100)
-                .HasColumnName("Nombre_Cliente");
+            entity.Property(e => e.CorreoElectronico).HasMaxLength(100);
+            entity.Property(e => e.NombreCliente).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Compra>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Compra__3214EC07271386B0");
+            entity.HasKey(e => e.Id).HasName("PK__Compra__3214EC0719B51EEC");
 
             entity.ToTable("Compra");
 
-            entity.Property(e => e.ClienteId).HasColumnName("Cliente_ID");
+            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
             entity.Property(e => e.Estado).HasMaxLength(50);
-            entity.Property(e => e.FechaCompra).HasColumnName("Fecha_Compra");
-            entity.Property(e => e.TotalCompra)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("Total_Compra");
+            entity.Property(e => e.TotalCompra).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Cliente).WithMany(p => p.Compras)
                 .HasForeignKey(d => d.ClienteId)
@@ -113,123 +102,142 @@ public partial class LibreriaContext : DbContext
                 .HasConstraintName("FK_Compra_Cliente");
         });
 
-        modelBuilder.Entity<Cupone>(entity =>
+        modelBuilder.Entity<Cupon>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Cupones__3214EC0789E1416A");
+            entity.HasKey(e => e.Id).HasName("PK__Cupon__3214EC076E13135D");
 
-            entity.Property(e => e.ClientesAplicados).HasColumnName("Clientes_Aplicados");
-            entity.Property(e => e.CodigoCupon)
-                .HasMaxLength(50)
-                .HasColumnName("Codigo_Cupon");
-            entity.Property(e => e.Descripción).HasMaxLength(255);
+            entity.ToTable("Cupon");
+
+            entity.Property(e => e.CodigoCupon).HasMaxLength(50);
+            entity.Property(e => e.Descripcion).HasMaxLength(255);
             entity.Property(e => e.Descuento).HasColumnType("decimal(5, 2)");
             entity.Property(e => e.Estado).HasMaxLength(50);
-            entity.Property(e => e.FechaExpiracion).HasColumnName("Fecha_Expiracion");
-
-            entity.HasOne(d => d.ClientesAplicadosNavigation).WithMany(p => p.Cupones)
-                .HasForeignKey(d => d.ClientesAplicados)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cupones_Cliente");
         });
 
         modelBuilder.Entity<DetalleCarrito>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Detalle___3214EC077C4420D0");
+            entity.HasKey(e => e.Id).HasName("PK__DetalleC__3214EC07F1F63F35");
 
-            entity.ToTable("Detalle_Carrito");
+            entity.ToTable("DetalleCarrito");
 
-            entity.Property(e => e.CarritoId).HasColumnName("Carrito_ID");
-            entity.Property(e => e.PrecioUnitario)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("Precio_Unitario");
-            entity.Property(e => e.ProductoId).HasColumnName("Producto_ID");
+            entity.Property(e => e.CarritoId).HasColumnName("CarritoID");
+            entity.Property(e => e.PrecioUnitario).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductoId).HasColumnName("ProductoID");
 
             entity.HasOne(d => d.Carrito).WithMany(p => p.DetalleCarritos)
                 .HasForeignKey(d => d.CarritoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Detalle_Carrito_Carrito");
+                .HasConstraintName("FK_DetalleCarrito_Carrito");
 
             entity.HasOne(d => d.Producto).WithMany(p => p.DetalleCarritos)
                 .HasForeignKey(d => d.ProductoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Detalle_Carrito_Producto");
+                .HasConstraintName("FK_DetalleCarrito_Producto");
         });
 
         modelBuilder.Entity<DetalleCompra>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Detalle___3214EC0708539381");
+            entity.HasKey(e => e.Id).HasName("PK__DetalleC__3214EC072391B33F");
 
-            entity.ToTable("Detalle_Compra");
+            entity.ToTable("DetalleCompra");
 
-            entity.Property(e => e.CompraId).HasColumnName("Compra_ID");
-            entity.Property(e => e.PrecioUnitario)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("Precio_Unitario");
-            entity.Property(e => e.ProductoId).HasColumnName("Producto_ID");
+            entity.Property(e => e.CompraId).HasColumnName("CompraID");
+            entity.Property(e => e.PrecioUnitario).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductoId).HasColumnName("ProductoID");
             entity.Property(e => e.Subtotal).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Compra).WithMany(p => p.DetalleCompras)
                 .HasForeignKey(d => d.CompraId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Detalle_Compra_Compra");
+                .HasConstraintName("FK_DetalleCompra_Compra");
 
             entity.HasOne(d => d.Producto).WithMany(p => p.DetalleCompras)
                 .HasForeignKey(d => d.ProductoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Detalle_Compra_Producto");
+                .HasConstraintName("FK_DetalleCompra_Producto");
         });
 
         modelBuilder.Entity<DetallePedidoProveedor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Detalle___3214EC07F8FC1FD3");
+            entity.HasKey(e => e.Id).HasName("PK__DetalleP__3214EC0788C03173");
 
-            entity.ToTable("Detalle_Pedido_Proveedor");
+            entity.ToTable("DetallePedidoProveedor");
 
-            entity.Property(e => e.PedidoProveedorId).HasColumnName("Pedido_Proveedor_ID");
-            entity.Property(e => e.PrecioUnitario)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("Precio_Unitario");
-            entity.Property(e => e.ProductoId).HasColumnName("Producto_ID");
+            entity.Property(e => e.PedidoProveedorId).HasColumnName("PedidoProveedorID");
+            entity.Property(e => e.PrecioUnitario).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ProductoId).HasColumnName("ProductoID");
             entity.Property(e => e.Subtotal).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.PedidoProveedor).WithMany(p => p.DetallePedidoProveedors)
                 .HasForeignKey(d => d.PedidoProveedorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Detalle_Pedido_Proveedor_Pedido");
+                .HasConstraintName("FK_DetallePedidoProveedor_Pedido");
 
             entity.HasOne(d => d.Producto).WithMany(p => p.DetallePedidoProveedors)
                 .HasForeignKey(d => d.ProductoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Detalle_Pedido_Proveedor_Producto");
+                .HasConstraintName("FK_DetallePedidoProveedor_Producto");
+        });
+
+        modelBuilder.Entity<DireccionCliente>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Direccio__3214EC07198E4389");
+
+            entity.ToTable("DireccionCliente");
+
+            entity.Property(e => e.Ciudad).HasMaxLength(100);
+            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
+            entity.Property(e => e.CodigoPostal).HasMaxLength(10);
+            entity.Property(e => e.Direccion).HasMaxLength(255);
+            entity.Property(e => e.Estado).HasMaxLength(100);
+
+            entity.HasOne(d => d.Cliente).WithMany(p => p.DireccionClientes)
+                .HasForeignKey(d => d.ClienteId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DireccionCliente_Cliente");
         });
 
         modelBuilder.Entity<Empleado>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Empleado__3214EC076ADBD413");
+            entity.HasKey(e => e.Id).HasName("PK__Empleado__3214EC073B22D7E4");
 
             entity.ToTable("Empleado");
 
             entity.Property(e => e.Cargo).HasMaxLength(50);
-            entity.Property(e => e.CorreoElectrónico)
-                .HasMaxLength(100)
-                .HasColumnName("Correo_Electrónico");
-            entity.Property(e => e.FechaContratación).HasColumnName("Fecha_Contratación");
-            entity.Property(e => e.NombreEmpleado)
-                .HasMaxLength(100)
-                .HasColumnName("Nombre_Empleado");
-            entity.Property(e => e.Teléfono).HasMaxLength(15);
+            entity.Property(e => e.CorreoElectronico).HasMaxLength(100);
+            entity.Property(e => e.NombreEmpleado).HasMaxLength(100);
+            entity.Property(e => e.Telefono).HasMaxLength(15);
+        });
+
+        modelBuilder.Entity<Envio>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Envio__3214EC07DFD33C55");
+
+            entity.ToTable("Envio");
+
+            entity.Property(e => e.CompraId).HasColumnName("CompraID");
+            entity.Property(e => e.EstadoEnvio).HasMaxLength(50);
+            entity.Property(e => e.SucursalId).HasColumnName("SucursalID");
+
+            entity.HasOne(d => d.Compra).WithMany(p => p.Envios)
+                .HasForeignKey(d => d.CompraId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Envio_Compra");
+
+            entity.HasOne(d => d.Sucursal).WithMany(p => p.Envios)
+                .HasForeignKey(d => d.SucursalId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Envio_Sucursal");
         });
 
         modelBuilder.Entity<Inventario>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Inventar__3214EC078884C5CC");
+            entity.HasKey(e => e.Id).HasName("PK__Inventar__3214EC0776A53318");
 
             entity.ToTable("Inventario");
 
-            entity.Property(e => e.CantidadEntrante).HasColumnName("Cantidad_Entrante");
-            entity.Property(e => e.FechaEntrada).HasColumnName("Fecha_Entrada");
-            entity.Property(e => e.ProductoId).HasColumnName("Producto_ID");
-            entity.Property(e => e.ProveedorId).HasColumnName("Proveedor_ID");
+            entity.Property(e => e.ProductoId).HasColumnName("ProductoID");
+            entity.Property(e => e.ProveedorId).HasColumnName("ProveedorID");
 
             entity.HasOne(d => d.Producto).WithMany(p => p.Inventarios)
                 .HasForeignKey(d => d.ProductoId)
@@ -244,45 +252,36 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<PedidoProveedor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Pedido_P__3214EC0741136357");
+            entity.HasKey(e => e.Id).HasName("PK__PedidoPr__3214EC07EFD76927");
 
-            entity.ToTable("Pedido_Proveedor");
+            entity.ToTable("PedidoProveedor");
 
-            entity.Property(e => e.EstadoPedido)
-                .HasMaxLength(50)
-                .HasColumnName("Estado_Pedido");
-            entity.Property(e => e.FechaPedido).HasColumnName("Fecha_Pedido");
-            entity.Property(e => e.ProveedorId).HasColumnName("Proveedor_ID");
-            entity.Property(e => e.TotalPedido)
-                .HasColumnType("decimal(10, 2)")
-                .HasColumnName("Total_Pedido");
+            entity.Property(e => e.EstadoPedido).HasMaxLength(50);
+            entity.Property(e => e.ProveedorId).HasColumnName("ProveedorID");
+            entity.Property(e => e.TotalPedido).HasColumnType("decimal(10, 2)");
 
             entity.HasOne(d => d.Proveedor).WithMany(p => p.PedidoProveedors)
                 .HasForeignKey(d => d.ProveedorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Pedido_Proveedor_Proveedor");
+                .HasConstraintName("FK_PedidoProveedor_Proveedor");
         });
 
         modelBuilder.Entity<Producto>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Producto__3214EC07C4929CA6");
+            entity.HasKey(e => e.Id).HasName("PK__Producto__3214EC07C3F7B5ED");
 
             entity.ToTable("Producto");
 
-            entity.Property(e => e.CantidadStock).HasColumnName("Cantidad_Stock");
-            entity.Property(e => e.CategoríaId).HasColumnName("Categoría_ID");
-            entity.Property(e => e.Descripción).HasMaxLength(255);
-            entity.Property(e => e.FechaIngreso).HasColumnName("Fecha_Ingreso");
-            entity.Property(e => e.NombreProducto)
-                .HasMaxLength(100)
-                .HasColumnName("Nombre_Producto");
+            entity.Property(e => e.CategoriaId).HasColumnName("CategoriaID");
+            entity.Property(e => e.Descripcion).HasMaxLength(255);
+            entity.Property(e => e.NombreProducto).HasMaxLength(100);
             entity.Property(e => e.Precio).HasColumnType("decimal(10, 2)");
-            entity.Property(e => e.ProveedorId).HasColumnName("Proveedor_ID");
+            entity.Property(e => e.ProveedorId).HasColumnName("ProveedorID");
 
-            entity.HasOne(d => d.Categoría).WithMany(p => p.Productos)
-                .HasForeignKey(d => d.CategoríaId)
+            entity.HasOne(d => d.Categoria).WithMany(p => p.Productos)
+                .HasForeignKey(d => d.CategoriaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Producto_Categoría");
+                .HasConstraintName("FK_Producto_Categoria");
 
             entity.HasOne(d => d.Proveedor).WithMany(p => p.Productos)
                 .HasForeignKey(d => d.ProveedorId)
@@ -290,36 +289,42 @@ public partial class LibreriaContext : DbContext
                 .HasConstraintName("FK_Producto_Proveedor");
         });
 
-        modelBuilder.Entity<Promocione>(entity =>
+        modelBuilder.Entity<Promocion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promocio__3214EC07025A0F85");
+            entity.HasKey(e => e.Id).HasName("PK__Promocio__3214EC0792F47BD8");
+
+            entity.ToTable("Promocion");
 
             entity.Property(e => e.Descripcion).HasMaxLength(255);
             entity.Property(e => e.Descuento).HasColumnType("decimal(5, 2)");
-            entity.Property(e => e.FechaFin).HasColumnName("Fecha_Fin");
-            entity.Property(e => e.FechaInicio).HasColumnName("Fecha_Inicio");
-            entity.Property(e => e.NombrePromocion)
-                .HasMaxLength(100)
-                .HasColumnName("Nombre_Promocion");
-            entity.Property(e => e.ProductosAplicados).HasColumnName("Productos_Aplicados");
+            entity.Property(e => e.NombrePromocion).HasMaxLength(100);
+            entity.Property(e => e.ProductoId).HasColumnName("ProductoID");
 
-            entity.HasOne(d => d.ProductosAplicadosNavigation).WithMany(p => p.Promociones)
-                .HasForeignKey(d => d.ProductosAplicados)
+            entity.HasOne(d => d.Producto).WithMany(p => p.Promocions)
+                .HasForeignKey(d => d.ProductoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Promociones_Producto");
+                .HasConstraintName("FK_Promocion_Producto");
         });
 
         modelBuilder.Entity<Proveedor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Proveedo__3214EC07D6B97B6A");
+            entity.HasKey(e => e.Id).HasName("PK__Proveedo__3214EC0766BA3A4C");
 
             entity.ToTable("Proveedor");
 
-            entity.Property(e => e.CorreoElectrónico)
-                .HasMaxLength(100)
-                .HasColumnName("Correo_Electrónico");
-            entity.Property(e => e.Dirección).HasMaxLength(255);
-            entity.Property(e => e.Teléfono).HasMaxLength(15);
+            entity.Property(e => e.CorreoElectronico).HasMaxLength(100);
+            entity.Property(e => e.Direccion).HasMaxLength(255);
+            entity.Property(e => e.Telefono).HasMaxLength(15);
+        });
+
+        modelBuilder.Entity<Sucursal>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Sucursal__3214EC0780BF39F0");
+
+            entity.ToTable("Sucursal");
+
+            entity.Property(e => e.Direccion).HasMaxLength(255);
+            entity.Property(e => e.NombreSucursal).HasMaxLength(100);
         });
 
         OnModelCreatingPartial(modelBuilder);

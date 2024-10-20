@@ -1,12 +1,12 @@
 ﻿namespace Libreria.Models;
 
-public partial class CarritoCompra
+public partial class Carrito
 {
     public int Id { get; set; }
 
     public int ClienteId { get; set; }
 
-    public DateOnly FechaCreación { get; set; }
+    public DateOnly FechaCreacion { get; set; }
 
     public string EstadoCarrito { get; set; } = null!;
 

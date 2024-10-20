@@ -1,6 +1,6 @@
 ﻿namespace Libreria.Models;
 
-public partial class Categoría
+public partial class Categorium
 {
     public int Id { get; set; }
 

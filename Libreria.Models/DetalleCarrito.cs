@@ -12,7 +12,7 @@ public partial class DetalleCarrito
 
     public decimal PrecioUnitario { get; set; }
 
-    public virtual CarritoCompra Carrito { get; set; } = null!;
+    public virtual Carrito Carrito { get; set; } = null!;
 
     public virtual Producto Producto { get; set; } = null!;
 }

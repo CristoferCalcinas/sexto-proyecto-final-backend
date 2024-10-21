@@ -4,7 +4,7 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios;
 
-public class ComprasService : IComprasService
+public class ComprasService : ICompraService
 {
     private readonly IGenericRepository<Compra> _genericRepository;
     public ComprasService(IGenericRepository<Compra> genericRepository)

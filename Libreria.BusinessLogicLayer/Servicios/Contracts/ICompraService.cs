@@ -2,7 +2,7 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios.Contracts;
 
-public interface IComprasService
+public interface ICompraService
 {
     Task<Compra> AddCompra(Compra compra);
     Task<Compra> DeleteCompra(int id);

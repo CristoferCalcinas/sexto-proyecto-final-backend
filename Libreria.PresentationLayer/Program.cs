@@ -42,7 +42,7 @@ builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
 builder.Services.AddScoped<ICarritoService, CarritoService>();
 builder.Services.AddScoped<ICategoriumService, CategoriumService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<IComprasService, ComprasService>();
+builder.Services.AddScoped<ICompraService, ComprasService>();
 builder.Services.AddScoped<ICuponService, CuponService>();
 builder.Services.AddScoped<IDetalleCarritoService, DetalleCarritoService>();
 builder.Services.AddScoped<IDetalleCompraService, DetalleCompraService>();

@@ -4,9 +4,9 @@ namespace Libreria.BusinessLogicLayer.Servicios.Contracts;
 
 public interface ICategoríaService
 {
-    Task<Categoría> AddCategoría(Categoría categoría);
-    Task<Categoría> DeleteCategoría(int id);
-    Task<IQueryable<Categoría>> GetAllCategorías();
-    Task<Categoría> GetCategoríaById(int id);
-    Task<Categoría> UpdateCategoría(Categoría categoría);
+    Task<Categorium> AddCategoría(Categorium categoría);
+    Task<Categorium> DeleteCategoría(int id);
+    Task<IQueryable<Categorium>> GetAllCategorías();
+    Task<Categorium> GetCategoríaById(int id);
+    Task<Categorium> UpdateCategoría(Categorium categoría);
 }

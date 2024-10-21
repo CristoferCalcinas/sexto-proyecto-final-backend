@@ -4,9 +4,9 @@ namespace Libreria.BusinessLogicLayer.Servicios.Contracts;
 
 public interface ICuponesService
 {
-    Task<Cupone> AddCupon(Cupone cupon);
-    Task<Cupone> DeleteCupon(int id);
-    Task<IQueryable<Cupone>> GetAllCupones();
-    Task<Cupone> GetCuponById(int id);
-    Task<Cupone> UpdateCupon(Cupone cupon);
+    Task<Cupon> AddCupon(Cupon cupon);
+    Task<Cupon> DeleteCupon(int id);
+    Task<IQueryable<Cupon>> GetAllCupones();
+    Task<Cupon> GetCuponById(int id);
+    Task<Cupon> UpdateCupon(Cupon cupon);
 }

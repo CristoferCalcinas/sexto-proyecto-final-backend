@@ -24,7 +24,7 @@ builder.Services.AddScoped<IGenericRepository<Envio>, EnvioRepository>();
 builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
 builder.Services.AddScoped<IGenericRepository<DireccionCliente>, DireccionClienteRepository>();
 
-builder.Services.AddScoped<IGenericRepository<Promocione>, PromocionesRepository>();
+builder.Services.AddScoped<IGenericRepository<Promocion>, PromocionesRepository>();
 builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
 builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PredidoProveedorRepository>();
@@ -33,11 +33,11 @@ builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
 builder.Services.AddScoped<IGenericRepository<DetallePedidoProveedor>, DetallePedidoProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<DetalleCompra>, DetalleCompraRepository>();
 builder.Services.AddScoped<IGenericRepository<DetalleCarrito>, DetalleCarritoRepository>();
-builder.Services.AddScoped<IGenericRepository<Cupone>, CuponesRepository>();
+builder.Services.AddScoped<IGenericRepository<Cupon>, CuponesRepository>();
 builder.Services.AddScoped<IGenericRepository<Compra>, CompraRepository>();
 builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
-builder.Services.AddScoped<IGenericRepository<Categoría>, CategoríaRepository>();
-builder.Services.AddScoped<IGenericRepository<CarritoCompra>, CarritoCompraRepository>();
+builder.Services.AddScoped<IGenericRepository<Categorium>, CategoríaRepository>();
+builder.Services.AddScoped<IGenericRepository<Carrito>, CarritoCompraRepository>();
 
 
 builder.Services.AddScoped<IEnvioService, EnvioService>();

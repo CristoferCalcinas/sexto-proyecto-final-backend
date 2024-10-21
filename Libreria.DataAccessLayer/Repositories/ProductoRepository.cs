@@ -46,11 +46,11 @@ public class ProductoRepository : IGenericRepository<Producto>
         }
     }
 
-    public Task<List<TResult>> ExecuteQueryAsync<TResult>(string query) where TResult : class
+    public async Task<List<TResult>> ExecuteQueryAsync<TResult>(string query) where TResult : class
     {
         try
         {
-            return _context.Set<TResult>().FromSqlRaw(query).ToListAsync();
+            return await _context.Set<TResult>().FromSqlRaw(query).ToListAsync();
         }
         catch (Exception ex)
         {
@@ -88,13 +88,18 @@ public class ProductoRepository : IGenericRepository<Producto>
         }
     }
 
-    public Task<Producto> UpdateAsync(Producto entity)
+    public async Task<Producto> UpdateAsync(Producto entity)
     {
         try
         {
-            _context.Productos.Update(entity);
-            _context.SaveChanges();
-            return Task.FromResult(entity);
+            var productoToDatabase = await _context.Productos.FindAsync(entity.Id);
+            if (productoToDatabase != null)
+            {
+                _context.Update(entity);
+                await _context.SaveChangesAsync();
+                return productoToDatabase;
+            }
+            throw new Exception("Producto no encontrado");
         }
         catch (Exception ex)
         {

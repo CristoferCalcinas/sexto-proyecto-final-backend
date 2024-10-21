@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CuponesRepository : IGenericRepository<Cupon>
+public class CuponRepository : IGenericRepository<Cupon>
 {
     private readonly LibreriaContext _context;
-    public CuponesRepository(LibreriaContext context)
+    public CuponRepository(LibreriaContext context)
     {
         _context = context;
     }

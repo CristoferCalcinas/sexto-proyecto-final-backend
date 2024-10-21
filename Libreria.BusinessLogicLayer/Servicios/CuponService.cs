@@ -4,10 +4,10 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios;
 
-public class CuponesService : ICuponesService
+public class CuponService : ICuponService
 {
     private readonly IGenericRepository<Cupon> _genericRepository;
-    public CuponesService(IGenericRepository<Cupon> genericRepository)
+    public CuponService(IGenericRepository<Cupon> genericRepository)
     {
         _genericRepository = genericRepository;
     }

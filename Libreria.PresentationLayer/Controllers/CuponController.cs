@@ -7,10 +7,10 @@ namespace Libreria.PresentationLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CuponesController : ControllerBase
+    public class CuponController : ControllerBase
     {
-        private readonly ICuponesService _service;
-        public CuponesController(ICuponesService service)
+        private readonly ICuponService _service;
+        public CuponController(ICuponService service)
         {
             _service = service;
         }

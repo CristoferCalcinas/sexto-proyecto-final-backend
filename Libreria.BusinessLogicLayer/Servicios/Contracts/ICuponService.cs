@@ -2,7 +2,7 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios.Contracts;
 
-public interface ICuponesService
+public interface ICuponService
 {
     Task<Cupon> AddCupon(Cupon cupon);
     Task<Cupon> DeleteCupon(int id);

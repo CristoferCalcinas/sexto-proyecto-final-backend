@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CategoríaRepository : IGenericRepository<Categoría>
+public class CategoríaRepository : IGenericRepository<Categorium>
 {
     private readonly LibreriaContext _context;
     public CategoríaRepository(LibreriaContext context)
     {
         _context = context;
     }
-    public async Task<Categoría> AddAsync(Categoría entity)
+    public async Task<Categorium> AddAsync(Categorium entity)
     {
         try
         {
-            await _context.Categorías.AddAsync(entity);
+            await _context.Categoria.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
@@ -26,16 +26,16 @@ public class CategoríaRepository : IGenericRepository<Categoría>
         }
     }
 
-    public Task<Categoría> DeleteAsync(int id)
+    public async Task<Categorium> DeleteAsync(int id)
     {
         try
         {
-            var categoríaToDelete = _context.Categorías.Find(id);
+            var categoríaToDelete = await _context.Categoria.FindAsync(id);
             if (categoríaToDelete != null)
             {
-                _context.Categorías.Remove(categoríaToDelete);
-                _context.SaveChanges();
-                return Task.FromResult(categoríaToDelete);
+                _context.Categoria.Remove(categoríaToDelete);
+                await _context.SaveChangesAsync();
+                return categoríaToDelete;
             }
             throw new Exception("Categoría no encontrada");
         }
@@ -57,11 +57,11 @@ public class CategoríaRepository : IGenericRepository<Categoría>
         }
     }
 
-    public Task<IQueryable<Categoría>> GetAllAsync()
+    public Task<IQueryable<Categorium>> GetAllAsync()
     {
         try
         {
-            IQueryable<Categoría> categorías = _context.Categorías;
+            IQueryable<Categorium> categorías = _context.Categoria;
             return Task.FromResult(categorías);
         }
         catch (Exception ex)
@@ -70,11 +70,11 @@ public class CategoríaRepository : IGenericRepository<Categoría>
         }
     }
 
-    public async Task<Categoría> GetByIdAsync(int id)
+    public async Task<Categorium> GetByIdAsync(int id)
     {
         try
         {
-            var categoriaToDatabase = await _context.Categorías.FindAsync(id);
+            var categoriaToDatabase = await _context.Categoria.FindAsync(id);
             if (categoriaToDatabase != null)
             {
                 return categoriaToDatabase;
@@ -87,14 +87,14 @@ public class CategoríaRepository : IGenericRepository<Categoría>
         }
     }
 
-    public async Task<Categoría> UpdateAsync(Categoría entity)
+    public async Task<Categorium> UpdateAsync(Categorium entity)
     {
         try
         {
-            var categoriaToDatabase = await _context.Categorías.FindAsync(entity.Id);
+            var categoriaToDatabase = await _context.Categoria.FindAsync(entity.Id);
             if (categoriaToDatabase != null)
             {
-                _context.Categorías.Update(entity);
+                _context.Categoria.Update(entity);
                 await _context.SaveChangesAsync();
                 return entity;
             }

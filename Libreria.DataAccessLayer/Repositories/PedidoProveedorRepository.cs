@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class PredidoProveedorRepository : IGenericRepository<PedidoProveedor>
+public class PedidoProveedorRepository : IGenericRepository<PedidoProveedor>
 {
     private readonly LibreriaContext _context;
-    public PredidoProveedorRepository(LibreriaContext context)
+    public PedidoProveedorRepository(LibreriaContext context)
     {
         _context = context;
     }

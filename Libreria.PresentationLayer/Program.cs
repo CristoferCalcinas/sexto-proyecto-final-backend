@@ -32,7 +32,7 @@ builder.Services.AddScoped<IGenericRepository<DireccionCliente>, DireccionClient
 builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
 builder.Services.AddScoped<IGenericRepository<Envio>, EnvioRepository>();
 builder.Services.AddScoped<IGenericRepository<Inventario>, InventarioRepository>();
-builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PredidoProveedorRepository>();
+builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PedidoProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
 builder.Services.AddScoped<IGenericRepository<Promocion>, PromocionesRepository>();
 builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();

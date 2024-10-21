@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CategoríaRepository : IGenericRepository<Categorium>
+public class CategoriumRepository : IGenericRepository<Categorium>
 {
     private readonly LibreriaContext _context;
-    public CategoríaRepository(LibreriaContext context)
+    public CategoriumRepository(LibreriaContext context)
     {
         _context = context;
     }

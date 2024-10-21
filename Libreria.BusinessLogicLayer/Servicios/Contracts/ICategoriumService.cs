@@ -2,7 +2,7 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios.Contracts;
 
-public interface ICategoríaService
+public interface ICategoriumService
 {
     Task<Categorium> AddCategoría(Categorium categoría);
     Task<Categorium> DeleteCategoría(int id);

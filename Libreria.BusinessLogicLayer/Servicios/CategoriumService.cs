@@ -4,10 +4,10 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios;
 
-public class CategoríaService : ICategoríaService
+public class CategoriumService : ICategoriumService
 {
     private readonly IGenericRepository<Categorium> _genericRepository;
-    public CategoríaService(IGenericRepository<Categorium> genericRepository)
+    public CategoriumService(IGenericRepository<Categorium> genericRepository)
     {
         _genericRepository = genericRepository;
     }

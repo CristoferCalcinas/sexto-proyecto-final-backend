@@ -20,44 +20,42 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAnyOrigin", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 });
 
-builder.Services.AddScoped<IGenericRepository<Envio>, EnvioRepository>();
-builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
+builder.Services.AddScoped<IGenericRepository<Carrito>, CarritoCompraRepository>();
+builder.Services.AddScoped<IGenericRepository<Categorium>, CategoriumRepository>();
+builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
+builder.Services.AddScoped<IGenericRepository<Compra>, CompraRepository>();
+builder.Services.AddScoped<IGenericRepository<Cupon>, CuponesRepository>();
+builder.Services.AddScoped<IGenericRepository<DetalleCarrito>, DetalleCarritoRepository>();
+builder.Services.AddScoped<IGenericRepository<DetalleCompra>, DetalleCompraRepository>();
+builder.Services.AddScoped<IGenericRepository<DetallePedidoProveedor>, DetallePedidoProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<DireccionCliente>, DireccionClienteRepository>();
-
+builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
+builder.Services.AddScoped<IGenericRepository<Envio>, EnvioRepository>();
+builder.Services.AddScoped<IGenericRepository<Inventario>, InventarioRepository>();
+builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PredidoProveedorRepository>();
+builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
 builder.Services.AddScoped<IGenericRepository<Promocion>, PromocionesRepository>();
 builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();
-builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
-builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PredidoProveedorRepository>();
-builder.Services.AddScoped<IGenericRepository<Inventario>, InventarioRepository>();
-builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
-builder.Services.AddScoped<IGenericRepository<DetallePedidoProveedor>, DetallePedidoProveedorRepository>();
-builder.Services.AddScoped<IGenericRepository<DetalleCompra>, DetalleCompraRepository>();
-builder.Services.AddScoped<IGenericRepository<DetalleCarrito>, DetalleCarritoRepository>();
-builder.Services.AddScoped<IGenericRepository<Cupon>, CuponesRepository>();
-builder.Services.AddScoped<IGenericRepository<Compra>, CompraRepository>();
-builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
-builder.Services.AddScoped<IGenericRepository<Categorium>, CategoríaRepository>();
-builder.Services.AddScoped<IGenericRepository<Carrito>, CarritoCompraRepository>();
+builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
 
 
-builder.Services.AddScoped<IEnvioService, EnvioService>();
-builder.Services.AddScoped<ISucursalService, SucursalService>();
+builder.Services.AddScoped<ICarritoCompraService, CarritoCompraService>();
+builder.Services.AddScoped<ICategoriumService, CategoriumService>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IComprasService, ComprasService>();
+builder.Services.AddScoped<ICuponesService, CuponesService>();
+builder.Services.AddScoped<IDetalleCarritoService, DetalleCarritoService>();
+builder.Services.AddScoped<IDetalleCompraService, DetalleCompraService>();
+builder.Services.AddScoped<IDetallePedidoProveedorService, DetallePedidoProveedorService>();
 builder.Services.AddScoped<IDireccionClienteService, DireccionClienteService>();
-
+builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
+builder.Services.AddScoped<IEnvioService, EnvioService>();
+builder.Services.AddScoped<IInventarioService, InventarioService>();
+builder.Services.AddScoped<IPedidoProveedorService, PedidoProveedorService>();
+builder.Services.AddScoped<IProductosService, ProductosService>();
 builder.Services.AddScoped<IPromocionesService, PromocionesService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
-builder.Services.AddScoped<IProductosService, ProductosService>();
-builder.Services.AddScoped<IPedidoProveedorService, PedidoProveedorService>();
-builder.Services.AddScoped<IInventarioService, InventarioService>();
-builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
-builder.Services.AddScoped<IDetallePedidoProveedorService, DetallePedidoProveedorService>();
-builder.Services.AddScoped<IDetalleCompraService, DetalleCompraService>();
-builder.Services.AddScoped<IDetalleCarritoService, DetalleCarritoService>();
-builder.Services.AddScoped<ICuponesService, CuponesService>();
-builder.Services.AddScoped<IComprasService, ComprasService>();
-builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<ICategoríaService, CategoríaService>();
-builder.Services.AddScoped<ICarritoCompraService, CarritoCompraService>();
+builder.Services.AddScoped<ISucursalService, SucursalService>();
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -7,10 +7,10 @@ namespace Libreria.PresentationLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoríaController : ControllerBase
+    public class CategoriumController : ControllerBase
     {
-        private readonly ICategoríaService _service;
-        public CategoríaController(ICategoríaService service)
+        private readonly ICategoriumService _service;
+        public CategoriumController(ICategoriumService service)
         {
             _service = service;
         }

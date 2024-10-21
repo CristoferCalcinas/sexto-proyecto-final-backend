@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class PromocionesRepository : IGenericRepository<Promocione>
+public class PromocionesRepository : IGenericRepository<Promocion>
 {
     private readonly LibreriaContext _context;
     public PromocionesRepository(LibreriaContext context)
     {
         _context = context;
     }
-    public async Task<Promocione> AddAsync(Promocione entity)
+    public async Task<Promocion> AddAsync(Promocion entity)
     {
         try
         {
-            await _context.Promociones.AddAsync(entity);
+            await _context.Promocions.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
@@ -26,18 +26,18 @@ public class PromocionesRepository : IGenericRepository<Promocione>
         }
     }
 
-    public Task<Promocione> DeleteAsync(int id)
+    public async Task<Promocion> DeleteAsync(int id)
     {
         try
         {
-            var promocionToDelete = _context.Promociones.Find(id);
-            if (promocionToDelete == null)
+            var promocionToDelete = await _context.Promocions.FindAsync(id);
+            if (promocionToDelete != null)
             {
-                throw new Exception("Promoción no encontrada");
+                _context.Promocions.Remove(promocionToDelete);
+                await _context.SaveChangesAsync();
+                return promocionToDelete;
             }
-            _context.Promociones.Remove(promocionToDelete);
-            _context.SaveChanges();
-            return Task.FromResult(promocionToDelete);
+            throw new Exception("Promoción no encontrada");
         }
         catch (Exception ex)
         {
@@ -50,11 +50,11 @@ public class PromocionesRepository : IGenericRepository<Promocione>
         return await _context.Set<TResult>().FromSqlRaw(query).ToListAsync();
     }
 
-    public Task<IQueryable<Promocione>> GetAllAsync()
+    public Task<IQueryable<Promocion>> GetAllAsync()
     {
         try
         {
-            IQueryable<Promocione> promociones = _context.Promociones;
+            IQueryable<Promocion> promociones = _context.Promocions;
             return Task.FromResult(promociones);
         }
         catch (Exception ex)
@@ -63,11 +63,11 @@ public class PromocionesRepository : IGenericRepository<Promocione>
         }
     }
 
-    public async Task<Promocione> GetByIdAsync(int id)
+    public async Task<Promocion> GetByIdAsync(int id)
     {
         try
         {
-            var promocionesToDatabase = await _context.Promociones.FindAsync(id);
+            var promocionesToDatabase = await _context.Promocions.FindAsync(id);
             if (promocionesToDatabase != null)
             {
                 return promocionesToDatabase;
@@ -80,14 +80,14 @@ public class PromocionesRepository : IGenericRepository<Promocione>
         }
     }
 
-    public async Task<Promocione> UpdateAsync(Promocione entity)
+    public async Task<Promocion> UpdateAsync(Promocion entity)
     {
         try
         {
-            var promocionesToUpdate = await _context.Promociones.FindAsync(entity.Id);
+            var promocionesToUpdate = await _context.Promocions.FindAsync(entity.Id);
             if (promocionesToUpdate != null)
             {
-                _context.Entry(promocionesToUpdate).CurrentValues.SetValues(entity);
+                _context.Promocions.Update(entity);
                 await _context.SaveChangesAsync();
                 return entity;
             }

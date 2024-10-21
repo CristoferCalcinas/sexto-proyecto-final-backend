@@ -88,7 +88,7 @@ public class DireccionClienteRepository : IGenericRepository<DireccionCliente>
             var direccionClienteToDatabase = await _context.DireccionClientes.FindAsync(entity.Id);
             if (direccionClienteToDatabase != null)
             {
-                _context.Entry(direccionClienteToDatabase).CurrentValues.SetValues(entity);
+                _context.DireccionClientes.Update(entity);
                 await _context.SaveChangesAsync();
                 return direccionClienteToDatabase;
             }

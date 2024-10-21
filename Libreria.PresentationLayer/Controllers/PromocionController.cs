@@ -7,10 +7,10 @@ namespace Libreria.PresentationLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PromocionesController : ControllerBase
+    public class PromocionController : ControllerBase
     {
-        private readonly IPromocionesService _service;
-        public PromocionesController(IPromocionesService service)
+        private readonly IPromocionService _service;
+        public PromocionController(IPromocionService service)
         {
             _service = service;
         }

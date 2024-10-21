@@ -4,10 +4,10 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios;
 
-public class PromocionesService : IPromocionesService
+public class PromocionService : IPromocionService
 {
     private readonly IGenericRepository<Promocion> _genericRepository;
-    public PromocionesService(IGenericRepository<Promocion> genericRepository)
+    public PromocionService(IGenericRepository<Promocion> genericRepository)
     {
         _genericRepository = genericRepository;
     }

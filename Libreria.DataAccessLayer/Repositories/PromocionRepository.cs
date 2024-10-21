@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class PromocionesRepository : IGenericRepository<Promocion>
+public class PromocionRepository : IGenericRepository<Promocion>
 {
     private readonly LibreriaContext _context;
-    public PromocionesRepository(LibreriaContext context)
+    public PromocionRepository(LibreriaContext context)
     {
         _context = context;
     }

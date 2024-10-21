@@ -34,7 +34,7 @@ builder.Services.AddScoped<IGenericRepository<Envio>, EnvioRepository>();
 builder.Services.AddScoped<IGenericRepository<Inventario>, InventarioRepository>();
 builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PedidoProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
-builder.Services.AddScoped<IGenericRepository<Promocion>, PromocionesRepository>();
+builder.Services.AddScoped<IGenericRepository<Promocion>, PromocionRepository>();
 builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
 
@@ -53,7 +53,7 @@ builder.Services.AddScoped<IEnvioService, EnvioService>();
 builder.Services.AddScoped<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IPedidoProveedorService, PedidoProveedorService>();
 builder.Services.AddScoped<IProductosService, ProductosService>();
-builder.Services.AddScoped<IPromocionesService, PromocionesService>();
+builder.Services.AddScoped<IPromocionService, PromocionService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
 builder.Services.AddScoped<ISucursalService, SucursalService>();
 

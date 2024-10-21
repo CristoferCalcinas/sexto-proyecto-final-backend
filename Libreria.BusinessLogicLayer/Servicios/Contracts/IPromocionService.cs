@@ -2,7 +2,7 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios.Contracts;
 
-public interface IPromocionesService
+public interface IPromocionService
 {
     Task<IQueryable<Promocion>> GetAllPromociones();
     Task<Promocion> AddPromocion(Promocion promocion);

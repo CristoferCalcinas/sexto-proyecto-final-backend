@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CuponesRepository : IGenericRepository<Cupone>
+public class CuponesRepository : IGenericRepository<Cupon>
 {
     private readonly LibreriaContext _context;
     public CuponesRepository(LibreriaContext context)
@@ -13,11 +13,11 @@ public class CuponesRepository : IGenericRepository<Cupone>
         _context = context;
     }
 
-    public async Task<Cupone> AddAsync(Cupone entity)
+    public async Task<Cupon> AddAsync(Cupon entity)
     {
         try
         {
-            await _context.Cupones.AddAsync(entity);
+            await _context.Cupons.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
@@ -27,14 +27,14 @@ public class CuponesRepository : IGenericRepository<Cupone>
         }
     }
 
-    public async Task<Cupone> DeleteAsync(int id)
+    public async Task<Cupon> DeleteAsync(int id)
     {
         try
         {
-            var cuponToDelete = await _context.Cupones.FindAsync(id);
+            var cuponToDelete = await _context.Cupons.FindAsync(id);
             if (cuponToDelete != null)
             {
-                _context.Cupones.Remove(cuponToDelete);
+                _context.Cupons.Remove(cuponToDelete);
                 await _context.SaveChangesAsync();
                 return cuponToDelete;
             }
@@ -58,11 +58,11 @@ public class CuponesRepository : IGenericRepository<Cupone>
         }
     }
 
-    public Task<IQueryable<Cupone>> GetAllAsync()
+    public Task<IQueryable<Cupon>> GetAllAsync()
     {
         try
         {
-            IQueryable<Cupone> cupones = _context.Cupones;
+            IQueryable<Cupon> cupones = _context.Cupons;
             return Task.FromResult(cupones);
         }
         catch (Exception ex)
@@ -71,11 +71,11 @@ public class CuponesRepository : IGenericRepository<Cupone>
         }
     }
 
-    public async Task<Cupone> GetByIdAsync(int id)
+    public async Task<Cupon> GetByIdAsync(int id)
     {
         try
         {
-            var cuponToDatabase = await _context.Cupones.FindAsync(id);
+            var cuponToDatabase = await _context.Cupons.FindAsync(id);
             if(cuponToDatabase != null)
             {
                 return cuponToDatabase;
@@ -88,14 +88,14 @@ public class CuponesRepository : IGenericRepository<Cupone>
         }
     }
 
-    public async Task<Cupone> UpdateAsync(Cupone entity)
+    public async Task<Cupon> UpdateAsync(Cupon entity)
     {
         try
         {
-            var cuponToDatabase = await _context.Cupones.FindAsync(entity.Id);
+            var cuponToDatabase = await _context.Cupons.FindAsync(entity.Id);
             if(cuponToDatabase != null)
             {
-                _context.Cupones.Update(entity);
+                _context.Cupons.Update(entity);
                 await _context.SaveChangesAsync();
                 return entity;
             }

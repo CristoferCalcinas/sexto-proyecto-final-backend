@@ -6,33 +6,33 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class PromocionesService : IPromocionesService
 {
-    private readonly IGenericRepository<Promocione> _genericRepository;
-    public PromocionesService(IGenericRepository<Promocione> genericRepository)
+    private readonly IGenericRepository<Promocion> _genericRepository;
+    public PromocionesService(IGenericRepository<Promocion> genericRepository)
     {
         _genericRepository = genericRepository;
     }
     
-    public async Task<Promocione> AddPromocion(Promocione promocion)
+    public async Task<Promocion> AddPromocion(Promocion promocion)
     {
         return await _genericRepository.AddAsync(promocion);
     }
 
-    public async Task<Promocione> DeletePromocion(int id)
+    public async Task<Promocion> DeletePromocion(int id)
     {
         return await _genericRepository.DeleteAsync(id);
     }
 
-    public async Task<IQueryable<Promocione>> GetAllPromociones()
+    public async Task<IQueryable<Promocion>> GetAllPromociones()
     {
         return await _genericRepository.GetAllAsync();
     }
 
-    public async Task<Promocione> GetPromocionById(int id)
+    public async Task<Promocion> GetPromocionById(int id)
     {
         return await _genericRepository.GetByIdAsync(id);
     }
 
-    public async Task<Promocione> UpdatePromocion(Promocione promocion)
+    public async Task<Promocion> UpdatePromocion(Promocion promocion)
     {
         return await _genericRepository.UpdateAsync(promocion);
     }

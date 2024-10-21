@@ -6,32 +6,32 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class CategoríaService : ICategoríaService
 {
-    private readonly IGenericRepository<Categoría> _genericRepository;
-    public CategoríaService(IGenericRepository<Categoría> genericRepository)
+    private readonly IGenericRepository<Categorium> _genericRepository;
+    public CategoríaService(IGenericRepository<Categorium> genericRepository)
     {
         _genericRepository = genericRepository;
     }
-    public async Task<Categoría> AddCategoría(Categoría categoría)
+    public async Task<Categorium> AddCategoría(Categorium categoría)
     {
         return await _genericRepository.AddAsync(categoría);
     }
 
-    public async Task<Categoría> DeleteCategoría(int id)
+    public async Task<Categorium> DeleteCategoría(int id)
     {
         return await _genericRepository.DeleteAsync(id);
     }
 
-    public async Task<IQueryable<Categoría>> GetAllCategorías()
+    public async Task<IQueryable<Categorium>> GetAllCategorías()
     {
         return await _genericRepository.GetAllAsync();
     }
 
-    public async Task<Categoría> GetCategoríaById(int id)
+    public async Task<Categorium> GetCategoríaById(int id)
     {
         return await _genericRepository.GetByIdAsync(id);
     }
 
-    public async Task<Categoría> UpdateCategoría(Categoría categoría)
+    public async Task<Categorium> UpdateCategoría(Categorium categoría)
     {
         return await _genericRepository.UpdateAsync(categoría);
     }

@@ -6,33 +6,33 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class CuponesService : ICuponesService
 {
-    private readonly IGenericRepository<Cupone> _genericRepository;
-    public CuponesService(IGenericRepository<Cupone> genericRepository)
+    private readonly IGenericRepository<Cupon> _genericRepository;
+    public CuponesService(IGenericRepository<Cupon> genericRepository)
     {
         _genericRepository = genericRepository;
     }
     
-    public async Task<Cupone> AddCupon(Cupone cupon)
+    public async Task<Cupon> AddCupon(Cupon cupon)
     {
         return await _genericRepository.AddAsync(cupon);
     }
 
-    public async Task<Cupone> DeleteCupon(int id)
+    public async Task<Cupon> DeleteCupon(int id)
     {
         return await _genericRepository.DeleteAsync(id);
     }
 
-    public async Task<IQueryable<Cupone>> GetAllCupones()
+    public async Task<IQueryable<Cupon>> GetAllCupones()
     {
         return await _genericRepository.GetAllAsync();
     }
 
-    public async Task<Cupone> GetCuponById(int id)
+    public async Task<Cupon> GetCuponById(int id)
     {
         return await _genericRepository.GetByIdAsync(id);
     }
 
-    public async Task<Cupone> UpdateCupon(Cupone cupon)
+    public async Task<Cupon> UpdateCupon(Cupon cupon)
     {
         return await _genericRepository.UpdateAsync(cupon);
     }

@@ -20,6 +20,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAnyOrigin", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 });
 
+builder.Services.AddScoped<IGenericRepository<Envio>, EnvioRepository>();
+builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
+builder.Services.AddScoped<IGenericRepository<DireccionCliente>, DireccionClienteRepository>();
+
 builder.Services.AddScoped<IGenericRepository<Promocione>, PromocionesRepository>();
 builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
@@ -35,6 +39,10 @@ builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
 builder.Services.AddScoped<IGenericRepository<Categoría>, CategoríaRepository>();
 builder.Services.AddScoped<IGenericRepository<CarritoCompra>, CarritoCompraRepository>();
 
+
+builder.Services.AddScoped<IEnvioService, EnvioService>();
+builder.Services.AddScoped<ISucursalService, SucursalService>();
+builder.Services.AddScoped<IDireccionClienteService, DireccionClienteService>();
 
 builder.Services.AddScoped<IPromocionesService, PromocionesService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();

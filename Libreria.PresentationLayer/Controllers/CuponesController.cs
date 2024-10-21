@@ -51,10 +51,10 @@ namespace Libreria.PresentationLayer.Controllers
         {
             try
             {
-                Cupone newCupon = new Cupone
+                Cupon newCupon = new Cupon
                 {
                     CodigoCupon = cupon.CodigoCupon,
-                    Descripción = cupon.Descripción,
+                    Descripcion = cupon.Descripción,
                     Descuento = cupon.Descuento,
                     Estado = cupon.Estado,
                     FechaExpiracion = cupon.FechaExpiracion,
@@ -75,11 +75,11 @@ namespace Libreria.PresentationLayer.Controllers
         {
             try
             {
-                Cupone newCupon = new Cupone
+                Cupon newCupon = new Cupon
                 {
                     Id = cupon.Id,
                     CodigoCupon = cupon.CodigoCupon,
-                    Descripción = cupon.Descripción,
+                    Descripcion = cupon.Descripción,
                     Descuento = cupon.Descuento,
                     Estado = cupon.Estado,
                     FechaExpiracion = cupon.FechaExpiracion,

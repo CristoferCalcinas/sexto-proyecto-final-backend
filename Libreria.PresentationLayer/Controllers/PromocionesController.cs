@@ -33,7 +33,7 @@ namespace Libreria.PresentationLayer.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPromocion([FromBody] PromocionesViewModel promocion)
         {
-            Promocione promocionToAdd = new Promocione
+            Promocion promocionToAdd = new Promocion
             {
                 Descuento = promocion.Descuento,
                 FechaFin = promocion.FechaFin,

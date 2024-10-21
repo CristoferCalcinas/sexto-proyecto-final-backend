@@ -36,7 +36,7 @@ namespace Libreria.PresentationLayer.Controllers
             {
                 Id = producto.Id,
                 NombreProducto = producto.NombreProducto,
-                Descripción = producto.Descripción,
+                Descripcion = producto.Descripción,
                 Precio = producto.Precio,
                 CantidadStock = producto.CantidadStock,
             };
@@ -55,7 +55,7 @@ namespace Libreria.PresentationLayer.Controllers
             }
 
             productoToUpdate.NombreProducto = producto.NombreProducto;
-            productoToUpdate.Descripción = producto.Descripción;
+            productoToUpdate.Descripcion = producto.Descripción;
             productoToUpdate.Precio = producto.Precio;
             productoToUpdate.CantidadStock = producto.CantidadStock;
 

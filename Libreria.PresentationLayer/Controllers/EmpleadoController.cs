@@ -53,9 +53,9 @@ namespace Libreria.PresentationLayer.Controllers
                 Empleado newEmpleado = new Empleado
                 {
                     Cargo = empleado.Cargo,
-                    CorreoElectrónico = empleado.CorreoElectrónico,
+                    CorreoElectronico = empleado.CorreoElectrónico,
                     NombreEmpleado = empleado.NombreEmpleado,
-                    Teléfono = empleado.Teléfono,
+                    Telefono = empleado.Teléfono,
                 };
 
                 var result = await _service.AddEmpleado(newEmpleado);
@@ -77,9 +77,9 @@ namespace Libreria.PresentationLayer.Controllers
                 {
                     Id = empleado.Id,
                     Cargo = empleado.Cargo,
-                    CorreoElectrónico = empleado.CorreoElectrónico,
+                    CorreoElectronico = empleado.CorreoElectrónico,
                     NombreEmpleado = empleado.NombreEmpleado,
-                    Teléfono = empleado.Teléfono,
+                    Telefono = empleado.Teléfono,
                 };
 
                 var result = await _service.UpdateEmpleado(newEmpleado);

@@ -51,7 +51,7 @@ namespace Libreria.PresentationLayer.Controllers
         {
             try
             {
-                Categoría newCategoría = new Categoría
+                Categorium newCategoría = new Categorium
                 {
                     Descripcion = categoría.Descripcion,
                     NombreCategoria = categoría.NombreCategoria,
@@ -72,7 +72,7 @@ namespace Libreria.PresentationLayer.Controllers
         {
             try
             {
-                Categoría newCategoría = new Categoría
+                Categorium newCategoría = new Categorium
                 {
                     Id = categoría.Id,
                     Descripcion = categoría.Descripcion,

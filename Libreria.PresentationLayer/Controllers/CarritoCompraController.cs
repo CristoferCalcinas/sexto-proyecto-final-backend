@@ -51,10 +51,10 @@ namespace Libreria.PresentationLayer.Controllers
         {
             try
             {
-                CarritoCompra newCarritoCompra = new CarritoCompra
+                Carrito newCarritoCompra = new Carrito
                 {
                     ClienteId = carritoCompra.ClienteId,
-                    FechaCreación = carritoCompra.FechaCreación,
+                    FechaCreacion = carritoCompra.FechaCreación,
                     EstadoCarrito = carritoCompra.EstadoCarrito,
                 };
 
@@ -73,11 +73,11 @@ namespace Libreria.PresentationLayer.Controllers
         {
             try
             {
-                CarritoCompra newCarritoCompra = new CarritoCompra
+                Carrito newCarritoCompra = new Carrito
                 {
                     Id = carritoCompra.Id,
                     ClienteId = carritoCompra.ClienteId,
-                    FechaCreación = carritoCompra.FechaCreación,
+                    FechaCreacion = carritoCompra.FechaCreación,
                     EstadoCarrito = carritoCompra.EstadoCarrito,
                 };
 

@@ -53,7 +53,7 @@ namespace Libreria.PresentationLayer.Controllers
             {
                 Cliente newCliente = new Cliente
                 {
-                    CorreoElectrónico = cliente.CorreoElectrónico,
+                    CorreoElectronico = cliente.CorreoElectrónico,
                     FechaRegistro = cliente.FechaRegistro,
                     NombreCliente = cliente.NombreCliente,
                 };
@@ -76,7 +76,7 @@ namespace Libreria.PresentationLayer.Controllers
                 Cliente newCliente = new Cliente
                 {
                     Id = cliente.Id,
-                    CorreoElectrónico = cliente.CorreoElectrónico,
+                    CorreoElectronico = cliente.CorreoElectrónico,
                     FechaRegistro = cliente.FechaRegistro,
                     NombreCliente = cliente.NombreCliente,
                 };

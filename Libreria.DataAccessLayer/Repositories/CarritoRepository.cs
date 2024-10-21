@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CarritoCompraRepository : IGenericRepository<Carrito>
+public class CarritoRepository : IGenericRepository<Carrito>
 {
     private readonly LibreriaContext _context;
-    public CarritoCompraRepository(LibreriaContext context)
+    public CarritoRepository(LibreriaContext context)
     {
         _context = context;
     }

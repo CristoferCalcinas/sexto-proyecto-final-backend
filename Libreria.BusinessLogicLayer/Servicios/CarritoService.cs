@@ -4,10 +4,10 @@ using Libreria.Models;
 
 namespace Libreria.BusinessLogicLayer.Servicios;
 
-public class CarritoCompraService : ICarritoCompraService
+public class CarritoService : ICarritoService
 {
     private readonly IGenericRepository<Carrito> _genericRepository;
-    public CarritoCompraService(IGenericRepository<Carrito> genericRepository)
+    public CarritoService(IGenericRepository<Carrito> genericRepository)
     {
         _genericRepository = genericRepository;
     }

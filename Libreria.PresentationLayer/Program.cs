@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAnyOrigin", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 });
 
-builder.Services.AddScoped<IGenericRepository<Carrito>, CarritoCompraRepository>();
+builder.Services.AddScoped<IGenericRepository<Carrito>, CarritoRepository>();
 builder.Services.AddScoped<IGenericRepository<Categorium>, CategoriumRepository>();
 builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
 builder.Services.AddScoped<IGenericRepository<Compra>, CompraRepository>();
@@ -39,7 +39,7 @@ builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>()
 builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
 
 
-builder.Services.AddScoped<ICarritoCompraService, CarritoCompraService>();
+builder.Services.AddScoped<ICarritoService, CarritoService>();
 builder.Services.AddScoped<ICategoriumService, CategoriumService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IComprasService, ComprasService>();

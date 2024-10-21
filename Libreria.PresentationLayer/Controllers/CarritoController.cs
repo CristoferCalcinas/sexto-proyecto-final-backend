@@ -7,10 +7,10 @@ namespace Libreria.PresentationLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarritoCompraController : ControllerBase
+    public class CarritoController : ControllerBase
     {
-        private readonly ICarritoCompraService _service;
-        public CarritoCompraController(ICarritoCompraService service)
+        private readonly ICarritoService _service;
+        public CarritoController(ICarritoService service)
         {
             _service = service;
         }

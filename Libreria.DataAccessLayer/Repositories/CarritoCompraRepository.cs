@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CarritoCompraRepository : IGenericRepository<CarritoCompra>
+public class CarritoCompraRepository : IGenericRepository<Carrito>
 {
     private readonly LibreriaContext _context;
     public CarritoCompraRepository(LibreriaContext context)
@@ -13,11 +13,11 @@ public class CarritoCompraRepository : IGenericRepository<CarritoCompra>
         _context = context;
     }
 
-    public async Task<CarritoCompra> AddAsync(CarritoCompra entity)
+    public async Task<Carrito> AddAsync(Carrito entity)
     {
         try
         {
-            await _context.CarritoCompras.AddAsync(entity);
+            await _context.Carritos.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
@@ -27,14 +27,14 @@ public class CarritoCompraRepository : IGenericRepository<CarritoCompra>
         }
     }
 
-    public async Task<CarritoCompra> DeleteAsync(int id)
+    public async Task<Carrito> DeleteAsync(int id)
     {
         try
         {
-            var carritoToDelete = await _context.CarritoCompras.FindAsync(id);
+            var carritoToDelete = await _context.Carritos.FindAsync(id);
             if (carritoToDelete != null)
             {
-                _context.CarritoCompras.Remove(carritoToDelete);
+                _context.Carritos.Remove(carritoToDelete);
                 await _context.SaveChangesAsync();
                 return carritoToDelete;
             }
@@ -58,11 +58,11 @@ public class CarritoCompraRepository : IGenericRepository<CarritoCompra>
         }
     }
 
-    public Task<IQueryable<CarritoCompra>> GetAllAsync()
+    public Task<IQueryable<Carrito>> GetAllAsync()
     {
         try
         {
-            IQueryable<CarritoCompra> carritos = _context.CarritoCompras;
+            IQueryable<Carrito> carritos = _context.Carritos;
             return Task.FromResult(carritos);
         }
         catch (Exception ex)
@@ -71,11 +71,11 @@ public class CarritoCompraRepository : IGenericRepository<CarritoCompra>
         }
     }
 
-    public async Task<CarritoCompra> GetByIdAsync(int id)
+    public async Task<Carrito> GetByIdAsync(int id)
     {
         try
         {
-            var carritoCompraToDatabase = await _context.CarritoCompras.FindAsync(id);
+            var carritoCompraToDatabase = await _context.Carritos.FindAsync(id);
             if (carritoCompraToDatabase != null)
             {
                 return carritoCompraToDatabase;
@@ -88,14 +88,14 @@ public class CarritoCompraRepository : IGenericRepository<CarritoCompra>
         }
     }
 
-    public async Task<CarritoCompra> UpdateAsync(CarritoCompra entity)
+    public async Task<Carrito> UpdateAsync(Carrito entity)
     {
         try
         {
-            var carritoCompraToDatabase = await _context.CarritoCompras.FindAsync(entity.Id);
+            var carritoCompraToDatabase = await _context.Carritos.FindAsync(entity.Id);
             if (carritoCompraToDatabase != null)
             {
-                _context.CarritoCompras.Update(entity);
+                _context.Carritos.Update(entity);
                 await _context.SaveChangesAsync();
                 return entity;
             }

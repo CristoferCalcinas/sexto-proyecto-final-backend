@@ -104,5 +104,20 @@ namespace Libreria.PresentationLayer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> GetAllWithDetailsCarritoCompras(int id)
+        {
+            try
+            {
+                var carritoCompras = await _service.GetAllWithDetailsCarritoCompras(id);
+                return Ok(carritoCompras);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

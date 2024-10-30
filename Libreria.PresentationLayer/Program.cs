@@ -9,8 +9,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
-// .AddJsonOptions(options => {options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;});
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
 
 builder.Services.AddDbContext<LibreriaContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("ConnectionString")
@@ -21,7 +23,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAnyOrigin", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 });
 
-builder.Services.AddScoped<IGenericRepository<Carrito>, CarritoRepository>();
+builder.Services.AddScoped<ICarritoRepository, CarritoRepository>();
 builder.Services.AddScoped<IGenericRepository<Categorium>, CategoriumRepository>();
 builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
 builder.Services.AddScoped<IGenericRepository<Compra>, CompraRepository>();

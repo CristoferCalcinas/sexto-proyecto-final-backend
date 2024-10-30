@@ -6,8 +6,8 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class CarritoService : ICarritoService
 {
-    private readonly IGenericRepository<Carrito> _genericRepository;
-    public CarritoService(IGenericRepository<Carrito> genericRepository)
+    private readonly ICarritoRepository _genericRepository;
+    public CarritoService(ICarritoRepository genericRepository)
     {
         _genericRepository = genericRepository;
     }
@@ -24,6 +24,11 @@ public class CarritoService : ICarritoService
     public async Task<IQueryable<Carrito>> GetAllCarritoCompras()
     {
         return await _genericRepository.GetAllAsync();
+    }
+
+    public async Task<List<Carrito>> GetAllWithDetailsCarritoCompras(int id)
+    {
+        return await _genericRepository.GetAllWithDetailsAsync(id);
     }
 
     public async Task<Carrito> GetCarritoCompraById(int id)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CarritoRepository : IGenericRepository<Carrito>
+public class CarritoRepository : ICarritoRepository
 {
     private readonly LibreriaContext _context;
     public CarritoRepository(LibreriaContext context)
@@ -104,6 +104,21 @@ public class CarritoRepository : IGenericRepository<Carrito>
         catch (Exception ex)
         {
             throw new Exception($"Error al actualizar el carrito de compra: {ex.Message}");
+        }
+    }
+    public async Task<List<Carrito>> GetAllWithDetailsAsync(int id)
+    {
+        try
+        {
+            var carritos = await _context.Carritos
+                                          .Include(c => c.DetalleCarritos)
+                                          .Where(c => c.Id == id)
+                                          .ToListAsync();
+            return carritos;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al obtener los carritos de compra con detalles: {ex.Message}");
         }
     }
 }

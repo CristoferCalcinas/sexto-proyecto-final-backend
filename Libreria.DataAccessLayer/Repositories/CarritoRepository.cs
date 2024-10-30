@@ -112,6 +112,8 @@ public class CarritoRepository : ICarritoRepository
         {
             var carritos = await _context.Carritos
                                           .Include(c => c.DetalleCarritos)
+                                          .ThenInclude(dc => dc.Producto)
+                                          //   .ThenInclude(p => p.Categoria)
                                           .Where(c => c.Id == id)
                                           .ToListAsync();
             return carritos;

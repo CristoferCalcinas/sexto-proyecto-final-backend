@@ -115,6 +115,7 @@ public class CarritoRepository : ICarritoRepository
                                           .ThenInclude(dc => dc.Producto)
                                           //   .ThenInclude(p => p.Categoria)
                                           .Where(c => c.Id == id)
+                                        //   .Take(5)
                                           .ToListAsync();
             return carritos;
         }

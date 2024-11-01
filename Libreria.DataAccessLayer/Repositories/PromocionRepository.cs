@@ -54,7 +54,7 @@ public class PromocionRepository : IGenericRepository<Promocion>
     {
         try
         {
-            IQueryable<Promocion> promociones = _context.Promocions;
+            IQueryable<Promocion> promociones = _context.Promocions.Include(p => p.Producto);
             return Task.FromResult(promociones);
         }
         catch (Exception ex)

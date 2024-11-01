@@ -6,8 +6,8 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class ProductosService : IProductosService
 {
-    private readonly IGenericRepository<Producto> _genericRepository;
-    public ProductosService(IGenericRepository<Producto> genericRepository)
+    private readonly IProductoRepository _genericRepository;
+    public ProductosService(IProductoRepository genericRepository)
     {
         _genericRepository = genericRepository;
     }
@@ -29,6 +29,11 @@ public class ProductosService : IProductosService
     public async Task<Producto> GetProductorById(int id)
     {
         return await _genericRepository.GetByIdAsync(id);
+    }
+
+    public async Task<List<Producto>> GetProductosByName(string nameProduct)
+    {
+        return await _genericRepository.SearchProductsByNameAsync(nameProduct);
     }
 
     public async Task<Producto> UpdateProducto(Producto producto)

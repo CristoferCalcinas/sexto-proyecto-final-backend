@@ -9,4 +9,5 @@ public interface IProductosService
     Task<Producto> DeleteProducto(int id);
     Task<Producto> GetProductorById(int id);
     Task<Producto> UpdateProducto(Producto producto);
+    Task<List<Producto>> GetProductosByName(string nameProduct);
 }

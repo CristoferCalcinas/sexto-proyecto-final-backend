@@ -69,5 +69,12 @@ namespace Libreria.PresentationLayer.Controllers
             var deletedProducto = await _service.DeleteProducto(id);
             return Ok(deletedProducto);
         }
+
+        [HttpGet("search/{nameProduct}")]
+        public async Task<IActionResult> GetProductosByName(string nameProduct)
+        {
+            var productos = await _service.GetProductosByName(nameProduct);
+            return Ok(productos);
+        }
     }
 }

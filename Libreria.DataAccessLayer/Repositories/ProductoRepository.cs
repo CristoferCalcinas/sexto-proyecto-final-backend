@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class ProductoRepository : IGenericRepository<Producto>
+public class ProductoRepository : IProductoRepository
 {
     private readonly LibreriaContext _context;
     public ProductoRepository(LibreriaContext context)
@@ -85,6 +85,20 @@ public class ProductoRepository : IGenericRepository<Producto>
         catch (Exception ex)
         {
             throw new Exception($"Error al obtener el producto: {ex.Message}");
+        }
+    }
+
+    public async Task<List<Producto>> SearchProductsByNameAsync(string textSearch)
+    {
+        try
+        {
+            return await _context.Productos
+                    .Where(p => EF.Functions.Like(p.NombreProducto, $"%{textSearch}%"))
+                    .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al buscar los productos por nombre: {ex.Message}");
         }
     }
 

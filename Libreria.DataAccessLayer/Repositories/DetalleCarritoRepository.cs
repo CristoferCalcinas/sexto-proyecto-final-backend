@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class DetalleCarritoRepository : IGenericRepository<DetalleCarrito>
+public class DetalleCarritoRepository : IDetalleCarritoRepository
 {
     private readonly LibreriaContext _context;
     public DetalleCarritoRepository(LibreriaContext context)
@@ -18,7 +18,7 @@ public class DetalleCarritoRepository : IGenericRepository<DetalleCarrito>
         {
             await _context.DetalleCarritos.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return entity;       
+            return entity;
         }
         catch (Exception ex)
         {
@@ -75,7 +75,7 @@ public class DetalleCarritoRepository : IGenericRepository<DetalleCarrito>
         try
         {
             var detalleToDatabase = await _context.DetalleCarritos.FindAsync(id);
-            if(detalleToDatabase != null)
+            if (detalleToDatabase != null)
             {
                 return detalleToDatabase;
             }
@@ -92,7 +92,8 @@ public class DetalleCarritoRepository : IGenericRepository<DetalleCarrito>
         try
         {
             var detalleToUpdate = await _context.DetalleCarritos.FindAsync(entity.Id);
-            if(detalleToUpdate != null){
+            if (detalleToUpdate != null)
+            {
                 _context.DetalleCarritos.Update(entity);
                 await _context.SaveChangesAsync();
                 return entity;
@@ -102,6 +103,27 @@ public class DetalleCarritoRepository : IGenericRepository<DetalleCarrito>
         catch (Exception ex)
         {
             throw new Exception($"Error al actualizar el detalle de carrito: {ex.Message}");
+        }
+    }
+
+    public async Task<DetalleCarrito> PatchDetalleCarritoAsync(int id, int? cantidad = null)
+    {
+        try
+        {
+            var detalleToUpdate = await _context.DetalleCarritos.FindAsync(id);
+            if (detalleToUpdate == null)
+                throw new Exception("Detalle de carrito no encontrado");
+
+            // Actualiza solo las propiedades que no son null
+            if (cantidad.HasValue)
+                detalleToUpdate.Cantidad = cantidad.Value;
+
+            await _context.SaveChangesAsync();
+            return detalleToUpdate;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al actualizar parcialmente el detalle de carrito: {ex.Message}");
         }
     }
 }

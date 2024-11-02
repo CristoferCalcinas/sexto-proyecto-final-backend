@@ -104,5 +104,20 @@ namespace Libreria.PresentationLayer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchDetalleCarrito(int id, [FromBody] DetalleCarritoViewModel detalleCarrito)
+        {
+            try
+            {
+                var result = await _service.PatchDetalleCarrito(id, detalleCarrito.Cantidad);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

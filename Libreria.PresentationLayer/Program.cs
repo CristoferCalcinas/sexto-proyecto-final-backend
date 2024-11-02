@@ -28,7 +28,7 @@ builder.Services.AddScoped<IGenericRepository<Categorium>, CategoriumRepository>
 builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
 builder.Services.AddScoped<IGenericRepository<Compra>, CompraRepository>();
 builder.Services.AddScoped<IGenericRepository<Cupon>, CuponRepository>();
-builder.Services.AddScoped<IGenericRepository<DetalleCarrito>, DetalleCarritoRepository>();
+builder.Services.AddScoped<IDetalleCarritoRepository, DetalleCarritoRepository>();
 builder.Services.AddScoped<IGenericRepository<DetalleCompra>, DetalleCompraRepository>();
 builder.Services.AddScoped<IGenericRepository<DetallePedidoProveedor>, DetallePedidoProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<DireccionCliente>, DireccionClienteRepository>();

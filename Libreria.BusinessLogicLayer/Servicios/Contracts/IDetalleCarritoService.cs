@@ -9,4 +9,5 @@ public interface IDetalleCarritoService
     Task<IQueryable<DetalleCarrito>> GetAllDetalleCarritos();
     Task<DetalleCarrito> GetDetalleCarritoById(int id);
     Task<DetalleCarrito> UpdateDetalleCarrito(DetalleCarrito detalleCarrito);
+    Task<DetalleCarrito> PatchDetalleCarrito(int id, int? cantidad = null);
 }

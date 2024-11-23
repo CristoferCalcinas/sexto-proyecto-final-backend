@@ -7,4 +7,6 @@ public class ProductoViewModel
     public string Descripción { get; set; } = null!;
     public decimal Precio { get; set; }
     public int CantidadStock { get; set; }
+    public int CategoriaId { get; set; }
+    public int ProveedorId { get; set; }
 }

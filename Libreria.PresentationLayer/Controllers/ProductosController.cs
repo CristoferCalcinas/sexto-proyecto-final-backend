@@ -32,24 +32,47 @@ namespace Libreria.PresentationLayer.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProducto([FromBody] ProductoViewModel producto)
         {
-            Producto newProducto = new Producto
+            try
             {
-                Id = producto.Id,
-                NombreProducto = producto.NombreProducto,
-                Descripcion = producto.Descripción,
-                Precio = producto.Precio,
-                CantidadStock = producto.CantidadStock,
-            };
+                // Validaciones básicas
+                if (producto == null)
+                    return BadRequest("El producto no puede ser nulo");
 
-            var addedProducto = await _service.AddProducto(newProducto);
-            return Ok(addedProducto);
+                if (string.IsNullOrWhiteSpace(producto.NombreProducto))
+                    return BadRequest("El nombre del producto es requerido");
+
+                if (producto.Precio <= 0)
+                    return BadRequest("El precio debe ser mayor a 0");
+
+                if (producto.CantidadStock <= 0)
+                    return BadRequest("La cantidad en stock no puede ser negativa");
+
+                var newProducto = new Producto
+                {
+                    CantidadStock = producto.CantidadStock,
+                    CategoriaId = producto.CategoriaId,
+                    Descripcion = producto.Descripción,
+                    FechaIngreso = DateOnly.FromDateTime(DateTime.Now),
+                    NombreProducto = producto.NombreProducto.Trim(),
+                    Precio = producto.Precio,
+                    ProveedorId = producto.ProveedorId
+                };
+
+                var addedProducto = await _service.AddProducto(newProducto);
+                return CreatedAtAction(nameof(GetProductoById), new { id = addedProducto.Id }, addedProducto);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here
+                return StatusCode(500, $"Error interno al procesar la solicitud \n{ex.Message}");
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateProducto([FromBody] ProductoViewModel producto)
         {
             var productoToUpdate = await _service.GetProductorById(producto.Id);
-            if ( productoToUpdate == null)
+            if (productoToUpdate == null)
             {
                 return NotFound();
             }

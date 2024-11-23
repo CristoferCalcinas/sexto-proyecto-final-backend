@@ -51,7 +51,7 @@ namespace Libreria.PresentationLayer.Controllers
                 {
                     CantidadStock = producto.CantidadStock,
                     CategoriaId = producto.CategoriaId,
-                    Descripcion = producto.Descripción,
+                    Descripcion = producto.Descripcion,
                     FechaIngreso = DateOnly.FromDateTime(DateTime.Now),
                     NombreProducto = producto.NombreProducto.Trim(),
                     Precio = producto.Precio,
@@ -78,7 +78,7 @@ namespace Libreria.PresentationLayer.Controllers
             }
 
             productoToUpdate.NombreProducto = producto.NombreProducto;
-            productoToUpdate.Descripcion = producto.Descripción;
+            productoToUpdate.Descripcion = producto.Descripcion;
             productoToUpdate.Precio = producto.Precio;
             productoToUpdate.CantidadStock = producto.CantidadStock;
 

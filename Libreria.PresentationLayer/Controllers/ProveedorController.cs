@@ -35,9 +35,9 @@ namespace Libreria.PresentationLayer.Controllers
         {
             Proveedor proveedorToAdd = new Proveedor
             {
-                CorreoElectronico = proveedor.CorreoElectrónico,
-                Direccion = proveedor.Dirección,
-                Telefono = proveedor.Teléfono,
+                CorreoElectronico = proveedor.CorreoElectronico,
+                Direccion = proveedor.Direccion,
+                Telefono = proveedor.Telefono,
             };
             var result = await _service.AddProveedor(proveedorToAdd);
             return Ok(result);
@@ -51,10 +51,10 @@ namespace Libreria.PresentationLayer.Controllers
             {
                 return NotFound();
             }
-            proveedorToDatabase.CorreoElectronico = proveedor.CorreoElectrónico;
-            proveedorToDatabase.Direccion = proveedor.Dirección;
+            proveedorToDatabase.CorreoElectronico = proveedor.CorreoElectronico;
+            proveedorToDatabase.Direccion = proveedor.Direccion;
             proveedorToDatabase.Id = proveedor.Id;
-            proveedorToDatabase.Telefono = proveedor.Teléfono;
+            proveedorToDatabase.Telefono = proveedor.Telefono;
             var result = await _service.UpdateProveedor(proveedorToDatabase);
             return Ok(result);
         }

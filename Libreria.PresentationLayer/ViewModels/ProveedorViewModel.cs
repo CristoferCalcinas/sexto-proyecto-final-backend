@@ -4,9 +4,9 @@ public class ProveedorViewModel
 {
     public int Id { get; set; }
 
-    public string Teléfono { get; set; } = null!;
+    public string Telefono { get; set; } = null!;
 
-    public string CorreoElectrónico { get; set; } = null!;
+    public string CorreoElectronico { get; set; } = null!;
 
-    public string Dirección { get; set; } = null!;
+    public string Direccion { get; set; } = null!;
 }

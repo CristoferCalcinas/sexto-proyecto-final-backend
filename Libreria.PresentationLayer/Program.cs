@@ -24,7 +24,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<ICarritoRepository, CarritoRepository>();
-builder.Services.AddScoped<IGenericRepository<Categorium>, CategoriumRepository>();
+builder.Services.AddScoped<ICategoriumRepository, CategoriumRepository>();
 builder.Services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
 builder.Services.AddScoped<IGenericRepository<Compra>, CompraRepository>();
 builder.Services.AddScoped<IGenericRepository<Cupon>, CuponRepository>();

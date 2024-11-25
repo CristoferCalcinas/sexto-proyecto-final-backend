@@ -9,4 +9,5 @@ public interface ICategoriumService
     Task<IQueryable<Categorium>> GetAllCategorías();
     Task<Categorium> GetCategoríaById(int id);
     Task<Categorium> UpdateCategoría(Categorium categoría);
+    Task<bool> DeleteAllCategorías(List<int> ids);
 }

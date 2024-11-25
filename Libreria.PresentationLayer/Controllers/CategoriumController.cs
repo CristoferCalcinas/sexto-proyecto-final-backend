@@ -102,5 +102,20 @@ namespace Libreria.PresentationLayer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpDelete("batch")]
+        public async Task<IActionResult> DeleteAllCategorías(List<int> ids)
+        {
+            try
+            {
+                var result = await _service.DeleteAllCategorías(ids);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

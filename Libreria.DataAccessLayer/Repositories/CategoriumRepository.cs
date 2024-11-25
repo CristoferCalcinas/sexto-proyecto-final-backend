@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CategoriumRepository : IGenericRepository<Categorium>
+public class CategoriumRepository : ICategoriumRepository
 {
     private readonly LibreriaContext _context;
     public CategoriumRepository(LibreriaContext context)
@@ -23,6 +23,33 @@ public class CategoriumRepository : IGenericRepository<Categorium>
         catch (Exception ex)
         {
             throw new Exception($"Error al agregar la categoría: {ex.Message}");
+        }
+    }
+
+    public async Task<bool> DeleteAllAsync(List<int> ids)
+    {
+        if (ids == null || !ids.Any())
+            return false;
+
+        try
+        {
+            // Obtener todas las categorías en una sola consulta
+            var categoriesToDelete = await _context.Categoria
+                .Where(c => ids.Contains(c.Id))
+                .ToListAsync();
+
+            if (!categoriesToDelete.Any())
+                return false;
+
+            // Eliminar todas las categorías en lote
+            _context.Categoria.RemoveRange(categoriesToDelete);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al eliminar las categorías: {ex.Message}");
         }
     }
 

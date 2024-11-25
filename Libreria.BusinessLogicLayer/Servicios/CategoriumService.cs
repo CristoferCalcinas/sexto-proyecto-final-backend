@@ -6,14 +6,19 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class CategoriumService : ICategoriumService
 {
-    private readonly IGenericRepository<Categorium> _genericRepository;
-    public CategoriumService(IGenericRepository<Categorium> genericRepository)
+    private readonly ICategoriumRepository _genericRepository;
+    public CategoriumService(ICategoriumRepository genericRepository)
     {
         _genericRepository = genericRepository;
     }
     public async Task<Categorium> AddCategoría(Categorium categoría)
     {
         return await _genericRepository.AddAsync(categoría);
+    }
+
+    public async Task<bool> DeleteAllCategorías(List<int> ids)
+    {
+        return await _genericRepository.DeleteAllAsync(ids);
     }
 
     public async Task<Categorium> DeleteCategoría(int id)

@@ -38,7 +38,7 @@ builder.Services.AddScoped<IGenericRepository<Inventario>, InventarioRepository>
 builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PedidoProveedorRepository>();
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IGenericRepository<Promocion>, PromocionRepository>();
-builder.Services.AddScoped<IGenericRepository<Proveedor>, ProveedorRepository>();
+builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
 
 

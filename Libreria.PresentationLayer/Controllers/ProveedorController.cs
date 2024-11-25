@@ -70,5 +70,19 @@ namespace Libreria.PresentationLayer.Controllers
             var result = await _service.DeleteProveedor(id);
             return Ok(result);
         }
+
+        [HttpDelete("batch")]
+        public async Task<IActionResult> DeleteAllProveedores(List<int> ids)
+        {
+            try
+            {
+                var result = await _service.DeleteAllProveedores(ids);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -6,14 +6,19 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class ProveedorService : IProveedorService
 {
-    private readonly IGenericRepository<Proveedor> _genericRepository;
-    public ProveedorService(IGenericRepository<Proveedor> genericRepository)
+    private readonly IProveedorRepository _genericRepository;
+    public ProveedorService(IProveedorRepository genericRepository)
     {
         _genericRepository = genericRepository;
     }
     public async Task<Proveedor> AddProveedor(Proveedor proveedor)
     {
         return await _genericRepository.AddAsync(proveedor);
+    }
+
+    public async Task<bool> DeleteAllProveedores(List<int> ids)
+    {
+        return await _genericRepository.DeleteAllAsync(ids);
     }
 
     public async Task<Proveedor> DeleteProveedor(int id)

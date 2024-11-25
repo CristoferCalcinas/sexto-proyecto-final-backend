@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class ProveedorRepository : IGenericRepository<Proveedor>
+public class ProveedorRepository : IProveedorRepository
 {
     private readonly LibreriaContext _context;
     public ProveedorRepository(LibreriaContext context)
@@ -24,6 +24,32 @@ public class ProveedorRepository : IGenericRepository<Proveedor>
         catch (Exception ex)
         {
             throw new Exception($"Error al agregar el proveedor: {ex.Message}");
+        }
+    }
+
+    public async Task<bool> DeleteAllAsync(List<int> ids)
+    {
+        if (ids == null || !ids.Any())
+            return false;
+        try
+        {
+            // Obtener todas las categorías en una sola consulta
+            var proveedoresToDelete = await _context.Proveedors
+                .Where(c => ids.Contains(c.Id))
+                .ToListAsync();
+
+            if (!proveedoresToDelete.Any())
+                return false;
+
+            // Eliminar todas las categorías en lote
+            _context.Proveedors.RemoveRange(proveedoresToDelete);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al eliminar los proveedores: {ex.Message}");
         }
     }
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class ClienteRepository : IGenericRepository<Cliente>
+public class ClienteRepository : IClienteRepository
 {
     private readonly LibreriaContext _context;
     public ClienteRepository(LibreriaContext context)
@@ -68,6 +68,23 @@ public class ClienteRepository : IGenericRepository<Cliente>
         catch (Exception ex)
         {
             throw new Exception($"Error al obtener los clientes: {ex.Message}");
+        }
+    }
+
+    public async Task<Cliente> GetByCorreoAsync(string correo)
+    {
+        try
+        {
+            var clienteToDatabase = await _context.Clientes.FirstOrDefaultAsync(c => c.CorreoElectronico == correo);
+            if (clienteToDatabase != null)
+            {
+                return clienteToDatabase;
+            }
+            throw new Exception("Cliente no encontrado");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al obtener el cliente: {ex.Message}");
         }
     }
 

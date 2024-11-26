@@ -104,5 +104,30 @@ namespace Libreria.PresentationLayer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpGet("email/{correo}")]
+        public async Task<IActionResult> GetClienteByCorreo(string correo)
+        {
+            if (string.IsNullOrEmpty(correo))
+            {
+                return BadRequest("Correo no puede ser nulo o vacío");
+            }
+
+            if (!correo.Contains("@"))
+            {
+                return BadRequest("Correo no es válido");
+            }
+
+            try
+            {
+                var cliente = await _service.GetClienteByCorreo(correo.Trim());
+                return Ok(cliente);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

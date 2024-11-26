@@ -6,8 +6,8 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class ClienteService : IClienteService
 {
-    private readonly IGenericRepository<Cliente> _genericRepository;
-    public ClienteService(IGenericRepository<Cliente> genericRepository)
+    private readonly IClienteRepository _genericRepository;
+    public ClienteService(IClienteRepository genericRepository)
     {
         _genericRepository = genericRepository;
     }
@@ -25,6 +25,11 @@ public class ClienteService : IClienteService
     public async Task<IQueryable<Cliente>> GetAllClientes()
     {
         return await _genericRepository.GetAllAsync();
+    }
+
+    public async Task<Cliente> GetClienteByCorreo(string correo)
+    {
+        return await _genericRepository.GetByCorreoAsync(correo);
     }
 
     public async Task<Cliente> GetClienteById(int id)

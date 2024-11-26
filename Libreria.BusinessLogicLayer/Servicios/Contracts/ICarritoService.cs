@@ -10,4 +10,5 @@ public interface ICarritoService
     Task<Carrito> GetCarritoCompraById(int id);
     Task<Carrito> UpdateCarritoCompra(Carrito carritoCompra);
     Task<List<Carrito>> GetAllWithDetailsCarritoCompras(int id);
+    Task<Carrito> GetLastCarritoCompra(int clienteId);
 }

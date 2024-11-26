@@ -115,13 +115,35 @@ public class CarritoRepository : ICarritoRepository
                                           .ThenInclude(dc => dc.Producto)
                                           //   .ThenInclude(p => p.Categoria)
                                           .Where(c => c.Id == id)
-                                        //   .Take(5)
+                                          //   .Take(5)
                                           .ToListAsync();
             return carritos;
         }
         catch (Exception ex)
         {
             throw new Exception($"Error al obtener los carritos de compra con detalles: {ex.Message}");
+        }
+    }
+
+    public async Task<Carrito> GetLastCarritoCompraAsync(int clienteId)
+    {
+        try
+        {
+            var ultimoCarritoActivo = await _context.Carritos
+                .Where(c => c.ClienteId == clienteId && c.EstadoCarrito == "Activo")
+                .OrderByDescending(c => c.Id)
+                .FirstOrDefaultAsync();
+
+            if (ultimoCarritoActivo != null)
+            {
+                return ultimoCarritoActivo;
+            }
+
+            throw new Exception($"No se encontró un carrito activo para el cliente con ID {clienteId}");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al obtener el último carrito de compra: {ex.Message}");
         }
     }
 }

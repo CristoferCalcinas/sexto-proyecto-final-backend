@@ -36,6 +36,11 @@ public class CarritoService : ICarritoService
         return await _genericRepository.GetByIdAsync(id);
     }
 
+    public async Task<Carrito> GetLastCarritoCompra(int clienteId)
+    {
+        return await _genericRepository.GetLastCarritoCompraAsync(clienteId);
+    }
+
     public async Task<Carrito> UpdateCarritoCompra(Carrito carritoCompra)
     {
         return await _genericRepository.UpdateAsync(carritoCompra);

@@ -119,5 +119,20 @@ namespace Libreria.PresentationLayer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpGet("last/{clienteId}")]
+        public async Task<IActionResult> GetLastCarritoCompra(int clienteId)
+        {
+            try
+            {
+                var carritoCompra = await _service.GetLastCarritoCompra(clienteId);
+                return Ok(carritoCompra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -114,7 +114,7 @@ public class CarritoRepository : ICarritoRepository
                                           .Include(c => c.DetalleCarritos)
                                           .ThenInclude(dc => dc.Producto)
                                           //   .ThenInclude(p => p.Categoria)
-                                          .Where(c => c.Id == id)
+                                          .Where(c => c.ClienteId == id && c.EstadoCarrito == "Activo")
                                           //   .Take(5)
                                           .ToListAsync();
             return carritos;
@@ -129,21 +129,33 @@ public class CarritoRepository : ICarritoRepository
     {
         try
         {
-            var ultimoCarritoActivo = await _context.Carritos
+            // Busca un carrito activo del cliente
+            var carrito = await _context.Carritos
                 .Where(c => c.ClienteId == clienteId && c.EstadoCarrito == "Activo")
                 .OrderByDescending(c => c.Id)
                 .FirstOrDefaultAsync();
 
-            if (ultimoCarritoActivo != null)
-            {
-                return ultimoCarritoActivo;
+            // Si no hay un carrito activo, busca el último carrito del cliente
+            if (carrito == null)
+            {              
+                // Si no hay ningún carrito o el último no está activo, crea uno nuevo
+                if (carrito == null || carrito.EstadoCarrito != "Activo")
+                {
+                    Carrito newCarrito = new Carrito
+                    {
+                        ClienteId = clienteId,
+                        FechaCreacion = DateOnly.FromDateTime(DateTime.Now),
+                        EstadoCarrito = "Activo",
+                    };
+                    carrito = await AddAsync(newCarrito);
+                }
             }
 
-            throw new Exception($"No se encontró un carrito activo para el cliente con ID {clienteId}");
+            return carrito;
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error al obtener el último carrito de compra: {ex.Message}");
+            throw new Exception($"Error al obtener o crear el carrito de compra: {ex.Message}");
         }
     }
 }

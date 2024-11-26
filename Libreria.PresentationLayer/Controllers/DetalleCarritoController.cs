@@ -56,6 +56,7 @@ namespace Libreria.PresentationLayer.Controllers
                     Cantidad = detalleCarrito.Cantidad,
                     CarritoId = detalleCarrito.CarritoId,
                     ProductoId = detalleCarrito.ProductoId,
+                    PrecioUnitario = detalleCarrito.PrecioUnitario,
                 };
 
                 var result = await _service.AddDetalleCarrito(newDetalleCarrito);

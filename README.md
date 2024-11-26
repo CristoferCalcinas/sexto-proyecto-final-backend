@@ -22,4 +22,4 @@ Se usara Angular Material como libreria de estilos y Angular 18 como framework d
 Nuestra base de datos por defecto sera "SQL Server" y se usara "Entity Framework" como ORM.
 Ademas para el uso de SQL Server se usara una imagen de "Docker" para la base de datos.
 
-![Diagrama ERD](db/diagrama_Libreria.png)
+![Diagrama ERD](db/ERD_Libreria.png)

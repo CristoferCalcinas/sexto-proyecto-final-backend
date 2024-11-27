@@ -6,7 +6,5 @@ public class ClienteViewModel
 
     public string NombreCliente { get; set; } = null!;
 
-    public string CorreoElectrónico { get; set; } = null!;
-
-    public DateOnly FechaRegistro { get; set; }
+    public string CorreoElectronico { get; set; } = null!;
 }

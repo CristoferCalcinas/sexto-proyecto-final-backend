@@ -53,8 +53,8 @@ namespace Libreria.PresentationLayer.Controllers
             {
                 Cliente newCliente = new Cliente
                 {
-                    CorreoElectronico = cliente.CorreoElectrónico,
-                    FechaRegistro = cliente.FechaRegistro,
+                    CorreoElectronico = cliente.CorreoElectronico,
+                    FechaRegistro = DateOnly.FromDateTime(DateTime.Now),
                     NombreCliente = cliente.NombreCliente,
                 };
 
@@ -73,16 +73,20 @@ namespace Libreria.PresentationLayer.Controllers
         {
             try
             {
-                Cliente newCliente = new Cliente
+                var clienteToDatabase = await _service.GetClienteById(cliente.Id);
+                if (clienteToDatabase != null)
                 {
-                    Id = cliente.Id,
-                    CorreoElectronico = cliente.CorreoElectrónico,
-                    FechaRegistro = cliente.FechaRegistro,
-                    NombreCliente = cliente.NombreCliente,
-                };
-
-                var result = await _service.UpdateCliente(newCliente);
-                return Ok(result);
+                    Cliente newCliente = new Cliente
+                    {
+                        CorreoElectronico = cliente.CorreoElectronico,
+                        FechaRegistro = clienteToDatabase.FechaRegistro,
+                        Id = clienteToDatabase.Id,
+                        NombreCliente = cliente.NombreCliente,
+                    };
+                    var result = await _service.UpdateCliente(newCliente);
+                    return Ok(result);
+                }
+                return BadRequest("Cliente no encontrado");
             }
             catch (Exception ex)
             {

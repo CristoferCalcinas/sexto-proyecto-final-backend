@@ -102,6 +102,24 @@ public class CompraRepository : IComprasRepository
         }
     }
 
+    public async Task<Producto> GetProductById(int productoId)
+    {
+        try
+        {
+            var productoToDatabase = await _context.Productos.FindAsync(productoId);
+            if (productoToDatabase != null)
+            {
+                return productoToDatabase;
+            }
+            throw new Exception("Producto no encontrado");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+    }
+
     public async Task<Compra> UpdateAsync(Compra entity)
     {
         try

@@ -51,12 +51,18 @@ namespace Libreria.PresentationLayer.Controllers
         {
             try
             {
+                var producto = await _service.GetProduct(compra.ProductoId);
+                if (producto == null)
+                {
+                    return NotFound();
+                }
+
                 Compra newCompra = new Compra
                 {
                     ClienteId = compra.ClienteId,
                     Estado = compra.Estado,
                     FechaCompra = DateOnly.FromDateTime(DateTime.Now),
-                    TotalCompra = compra.Cantidad * compra.PrecioUnitario,
+                    TotalCompra = compra.Cantidad * producto.Precio,
                 };
 
                 var result = await _service.AddCompra(newCompra);
@@ -67,8 +73,8 @@ namespace Libreria.PresentationLayer.Controllers
                     CompraId = result.Id,
                     ProductoId = compra.ProductoId,
                     Cantidad = compra.Cantidad,
-                    PrecioUnitario = compra.PrecioUnitario,
-                    Subtotal = compra.Cantidad * compra.PrecioUnitario,
+                    PrecioUnitario = producto.Precio,
+                    Subtotal = result.TotalCompra,
                 };
 
                 var newResult = await _service.AddDetalleCompra(newDetalleCompra);

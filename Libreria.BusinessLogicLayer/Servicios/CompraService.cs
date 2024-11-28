@@ -37,6 +37,11 @@ public class ComprasService : ICompraService
         return await _genericRepository.GetByIdAsync(id);
     }
 
+    public async Task<Producto> GetProduct(int productoId)
+    {
+        return await _genericRepository.GetProductById(productoId);
+    }
+
     public async Task<Compra> UpdateCompra(Compra compra)
     {
         return await _genericRepository.UpdateAsync(compra);

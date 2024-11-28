@@ -9,4 +9,5 @@ public interface ICompraService
     Task<IQueryable<Compra>> GetAllCompras();
     Task<Compra> GetCompraById(int id);
     Task<Compra> UpdateCompra(Compra compra);
+    Task<object> AddDetalleCompra(DetalleCompra detalleCompra);
 }

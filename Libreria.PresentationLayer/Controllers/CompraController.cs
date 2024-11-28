@@ -55,36 +55,54 @@ namespace Libreria.PresentationLayer.Controllers
                 {
                     ClienteId = compra.ClienteId,
                     Estado = compra.Estado,
-                    FechaCompra = compra.FechaCompra,
-                    TotalCompra = compra.TotalCompra,
+                    FechaCompra = DateOnly.FromDateTime(DateTime.Now),
+                    TotalCompra = compra.Cantidad * compra.PrecioUnitario,
                 };
 
                 var result = await _service.AddCompra(newCompra);
-                return Ok(result);
+
+
+                DetalleCompra newDetalleCompra = new DetalleCompra
+                {
+                    CompraId = result.Id,
+                    ProductoId = compra.ProductoId,
+                    Cantidad = compra.Cantidad,
+                    PrecioUnitario = compra.PrecioUnitario,
+                    Subtotal = compra.Cantidad * compra.PrecioUnitario,
+                };
+
+                var newResult = await _service.AddDetalleCompra(newDetalleCompra);
+
+                return Ok(newResult);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        
 
         [HttpPut]
         public async Task<IActionResult> UpdateCompra([FromBody] ComprasViewModel compra)
         {
             try
             {
-                Compra newCompra = new Compra
-                {
-                    Id = compra.Id,
-                    ClienteId = compra.ClienteId,
-                    Estado = compra.Estado,
-                    FechaCompra = compra.FechaCompra,
-                    TotalCompra = compra.TotalCompra,
-                };
+                var compraToDatabase = await _service.GetCompraById(compra.Id);
 
-                var result = await _service.UpdateCompra(newCompra);
-                return Ok(result);
+                if (compraToDatabase != null)
+                {
+                    Compra newCompra = new Compra
+                    {
+                        Id = compraToDatabase.Id,
+                        ClienteId = compraToDatabase.ClienteId,
+                        Estado = compra.Estado,
+                        FechaCompra = compraToDatabase.FechaCompra,
+                        TotalCompra = compraToDatabase.TotalCompra,
+                    };
+                    var result = await _service.UpdateCompra(newCompra);
+                    return Ok(result);
+                }
+                return NotFound();
+
             }
             catch (Exception ex)
             {

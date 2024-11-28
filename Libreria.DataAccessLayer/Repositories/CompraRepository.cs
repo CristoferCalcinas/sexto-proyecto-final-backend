@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
-public class CompraRepository : IGenericRepository<Compra>
+public class CompraRepository : IComprasRepository
 {
     private readonly LibreriaContext _context;
     public CompraRepository(LibreriaContext context)
@@ -23,6 +23,21 @@ public class CompraRepository : IGenericRepository<Compra>
         catch (Exception ex)
         {
             throw new Exception($"Error al agregar la compra: {ex.Message}");
+        }
+    }
+
+    public async Task<object> AddDetalleCompraAsync(DetalleCompra detalleCompra)
+    {
+        try
+        {
+            await _context.DetalleCompras.AddAsync(detalleCompra);
+            await _context.SaveChangesAsync();
+            return detalleCompra;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
         }
     }
 

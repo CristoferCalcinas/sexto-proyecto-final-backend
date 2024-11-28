@@ -6,8 +6,8 @@ namespace Libreria.BusinessLogicLayer.Servicios;
 
 public class ComprasService : ICompraService
 {
-    private readonly IGenericRepository<Compra> _genericRepository;
-    public ComprasService(IGenericRepository<Compra> genericRepository)
+    private readonly IComprasRepository _genericRepository;
+    public ComprasService(IComprasRepository genericRepository)
     {
         _genericRepository = genericRepository;
     }
@@ -15,6 +15,11 @@ public class ComprasService : ICompraService
     public async Task<Compra> AddCompra(Compra compra)
     {
         return await _genericRepository.AddAsync(compra);
+    }
+
+    public async Task<object> AddDetalleCompra(DetalleCompra detalleCompra)
+    {
+        return await _genericRepository.AddDetalleCompraAsync(detalleCompra);
     }
 
     public async Task<Compra> DeleteCompra(int id)

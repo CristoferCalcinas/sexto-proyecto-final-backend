@@ -4,11 +4,13 @@ public class ComprasViewModel
 {
     public int Id { get; set; }
 
-    public DateOnly FechaCompra { get; set; }
-
     public int ClienteId { get; set; }
 
-    public decimal TotalCompra { get; set; }
-
     public string Estado { get; set; } = null!;
+
+    public int ProductoId { get; set; }
+
+    public int Cantidad { get; set; }
+
+    public decimal PrecioUnitario { get; set; }
 }

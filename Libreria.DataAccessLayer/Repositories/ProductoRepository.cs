@@ -62,7 +62,7 @@ public class ProductoRepository : IProductoRepository
     {
         try
         {
-            IQueryable<Producto> productos = _context.Productos;
+            IQueryable<Producto> productos = _context.Productos.Include(producto => producto.Categoria);
             return Task.FromResult(productos);
         }
         catch (Exception ex)

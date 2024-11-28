@@ -4,5 +4,5 @@ namespace Libreria.DataAccessLayer.Repositories.Contract;
 
 public interface IClienteRepository : IGenericRepository<Cliente>
 {
-    Task<Cliente> GetByCorreoAsync(string correo);
+    Task<object> GetByCorreoAsync(string correo);
 }

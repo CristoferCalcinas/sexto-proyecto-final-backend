@@ -71,10 +71,15 @@ public class ClienteRepository : IClienteRepository
         }
     }
 
-    public async Task<Cliente> GetByCorreoAsync(string correo)
+    public async Task<object> GetByCorreoAsync(string correo)
     {
         try
         {
+            var empleadoToDatabase = await _context.Empleados.FirstOrDefaultAsync(e => e.CorreoElectronico == correo);
+            if (empleadoToDatabase != null)
+            {
+                return empleadoToDatabase;
+            }
             var clienteToDatabase = await _context.Clientes.FirstOrDefaultAsync(c => c.CorreoElectronico == correo);
             if (clienteToDatabase != null)
             {

@@ -27,7 +27,7 @@ public class ClienteService : IClienteService
         return await _genericRepository.GetAllAsync();
     }
 
-    public async Task<Cliente> GetClienteByCorreo(string correo)
+    public async Task<object> GetClienteByCorreo(string correo)
     {
         return await _genericRepository.GetByCorreoAsync(correo);
     }

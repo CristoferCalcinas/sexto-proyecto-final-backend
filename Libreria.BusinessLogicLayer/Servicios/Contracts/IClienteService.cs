@@ -9,5 +9,5 @@ public interface IClienteService
     Task<IQueryable<Cliente>> GetAllClientes();
     Task<Cliente> GetClienteById(int id);
     Task<Cliente> UpdateCliente(Cliente cliente);
-    Task<Cliente> GetClienteByCorreo(string correo);
+    Task<object> GetClienteByCorreo(string correo);
 }

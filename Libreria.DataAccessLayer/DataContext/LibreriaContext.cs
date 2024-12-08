@@ -1,7 +1,8 @@
-﻿using Libreria.Models;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Libreria.DataAccessLayer.DataContext;
+namespace Libreria.DataAccessLayer.Migracion;
 
 public partial class LibreriaContext : DbContext
 {
@@ -18,8 +19,6 @@ public partial class LibreriaContext : DbContext
 
     public virtual DbSet<Categorium> Categoria { get; set; }
 
-    public virtual DbSet<Cliente> Clientes { get; set; }
-
     public virtual DbSet<Compra> Compras { get; set; }
 
     public virtual DbSet<Cupon> Cupons { get; set; }
@@ -29,10 +28,6 @@ public partial class LibreriaContext : DbContext
     public virtual DbSet<DetalleCompra> DetalleCompras { get; set; }
 
     public virtual DbSet<DetallePedidoProveedor> DetallePedidoProveedors { get; set; }
-
-    public virtual DbSet<DireccionCliente> DireccionClientes { get; set; }
-
-    public virtual DbSet<Empleado> Empleados { get; set; }
 
     public virtual DbSet<Envio> Envios { get; set; }
 
@@ -46,7 +41,11 @@ public partial class LibreriaContext : DbContext
 
     public virtual DbSet<Proveedor> Proveedors { get; set; }
 
+    public virtual DbSet<Rol> Rols { get; set; }
+
     public virtual DbSet<Sucursal> Sucursals { get; set; }
+
+    public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Server=localhost,1433;Database=Libreria;User Id=sa;Password=Sinclave1!;Encrypt=False;");
@@ -55,56 +54,46 @@ public partial class LibreriaContext : DbContext
     {
         modelBuilder.Entity<Carrito>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Carrito__3214EC07E24742BB");
+            entity.HasKey(e => e.Id).HasName("PK__Carrito__3214EC07C2F20FA8");
 
             entity.ToTable("Carrito");
 
-            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
             entity.Property(e => e.EstadoCarrito).HasMaxLength(50);
+            entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
-            entity.HasOne(d => d.Cliente).WithMany(p => p.Carritos)
-                .HasForeignKey(d => d.ClienteId)
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Carritos)
+                .HasForeignKey(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Carrito_Cliente");
+                .HasConstraintName("FK_Carrito_Usuario");
         });
 
         modelBuilder.Entity<Categorium>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC074192B1D3");
+            entity.HasKey(e => e.Id).HasName("PK__Categori__3214EC0717058AAD");
 
             entity.Property(e => e.Descripcion).HasMaxLength(255);
             entity.Property(e => e.NombreCategoria).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<Cliente>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Cliente__3214EC0704A15C1A");
-
-            entity.ToTable("Cliente");
-
-            entity.Property(e => e.CorreoElectronico).HasMaxLength(100);
-            entity.Property(e => e.NombreCliente).HasMaxLength(100);
-        });
-
         modelBuilder.Entity<Compra>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Compra__3214EC0719B51EEC");
+            entity.HasKey(e => e.Id).HasName("PK__Compra__3214EC07AB08AA9F");
 
             entity.ToTable("Compra");
 
-            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
             entity.Property(e => e.Estado).HasMaxLength(50);
             entity.Property(e => e.TotalCompra).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
 
-            entity.HasOne(d => d.Cliente).WithMany(p => p.Compras)
-                .HasForeignKey(d => d.ClienteId)
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Compras)
+                .HasForeignKey(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Compra_Cliente");
+                .HasConstraintName("FK_Compra_Usuario");
         });
 
         modelBuilder.Entity<Cupon>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Cupon__3214EC076E13135D");
+            entity.HasKey(e => e.Id).HasName("PK__Cupon__3214EC075DEE060A");
 
             entity.ToTable("Cupon");
 
@@ -116,7 +105,7 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<DetalleCarrito>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DetalleC__3214EC07F1F63F35");
+            entity.HasKey(e => e.Id).HasName("PK__DetalleC__3214EC072926D7EB");
 
             entity.ToTable("DetalleCarrito");
 
@@ -137,7 +126,7 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<DetalleCompra>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DetalleC__3214EC072391B33F");
+            entity.HasKey(e => e.Id).HasName("PK__DetalleC__3214EC07F2BB90D8");
 
             entity.ToTable("DetalleCompra");
 
@@ -159,7 +148,7 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<DetallePedidoProveedor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DetalleP__3214EC0788C03173");
+            entity.HasKey(e => e.Id).HasName("PK__DetalleP__3214EC07AB1C3F23");
 
             entity.ToTable("DetallePedidoProveedor");
 
@@ -179,39 +168,9 @@ public partial class LibreriaContext : DbContext
                 .HasConstraintName("FK_DetallePedidoProveedor_Producto");
         });
 
-        modelBuilder.Entity<DireccionCliente>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Direccio__3214EC07198E4389");
-
-            entity.ToTable("DireccionCliente");
-
-            entity.Property(e => e.Ciudad).HasMaxLength(100);
-            entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
-            entity.Property(e => e.CodigoPostal).HasMaxLength(10);
-            entity.Property(e => e.Direccion).HasMaxLength(255);
-            entity.Property(e => e.Estado).HasMaxLength(100);
-
-            entity.HasOne(d => d.Cliente).WithMany(p => p.DireccionClientes)
-                .HasForeignKey(d => d.ClienteId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_DireccionCliente_Cliente");
-        });
-
-        modelBuilder.Entity<Empleado>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__Empleado__3214EC073B22D7E4");
-
-            entity.ToTable("Empleado");
-
-            entity.Property(e => e.Cargo).HasMaxLength(50);
-            entity.Property(e => e.CorreoElectronico).HasMaxLength(100);
-            entity.Property(e => e.NombreEmpleado).HasMaxLength(100);
-            entity.Property(e => e.Telefono).HasMaxLength(15);
-        });
-
         modelBuilder.Entity<Envio>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Envio__3214EC07DFD33C55");
+            entity.HasKey(e => e.Id).HasName("PK__Envio__3214EC078EFCCE17");
 
             entity.ToTable("Envio");
 
@@ -232,7 +191,7 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<Inventario>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Inventar__3214EC0776A53318");
+            entity.HasKey(e => e.Id).HasName("PK__Inventar__3214EC07E010AA63");
 
             entity.ToTable("Inventario");
 
@@ -252,7 +211,7 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<PedidoProveedor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__PedidoPr__3214EC07EFD76927");
+            entity.HasKey(e => e.Id).HasName("PK__PedidoPr__3214EC071EC69C23");
 
             entity.ToTable("PedidoProveedor");
 
@@ -268,7 +227,7 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<Producto>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Producto__3214EC07C3F7B5ED");
+            entity.HasKey(e => e.Id).HasName("PK__Producto__3214EC07A469A1F8");
 
             entity.ToTable("Producto");
 
@@ -291,7 +250,7 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<Promocion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Promocio__3214EC0792F47BD8");
+            entity.HasKey(e => e.Id).HasName("PK__Promocio__3214EC070EF2EC72");
 
             entity.ToTable("Promocion");
 
@@ -308,7 +267,7 @@ public partial class LibreriaContext : DbContext
 
         modelBuilder.Entity<Proveedor>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Proveedo__3214EC0766BA3A4C");
+            entity.HasKey(e => e.Id).HasName("PK__Proveedo__3214EC077394D5FE");
 
             entity.ToTable("Proveedor");
 
@@ -317,14 +276,47 @@ public partial class LibreriaContext : DbContext
             entity.Property(e => e.Telefono).HasMaxLength(15);
         });
 
+        modelBuilder.Entity<Rol>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Rol__3214EC078024AEFA");
+
+            entity.ToTable("Rol");
+
+            entity.HasIndex(e => e.NombreRol, "UQ__Rol__4F0B537FFB76C22D").IsUnique();
+
+            entity.Property(e => e.Descripcion).HasMaxLength(255);
+            entity.Property(e => e.NombreRol).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<Sucursal>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Sucursal__3214EC0780BF39F0");
+            entity.HasKey(e => e.Id).HasName("PK__Sucursal__3214EC07475217E2");
 
             entity.ToTable("Sucursal");
 
             entity.Property(e => e.Direccion).HasMaxLength(255);
             entity.Property(e => e.NombreSucursal).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Usuario__3214EC071E036DD0");
+
+            entity.ToTable("Usuario");
+
+            entity.HasIndex(e => e.CorreoElectronico, "UQ__Usuario__531402F32D6663AD").IsUnique();
+
+            entity.Property(e => e.Contrasena).HasMaxLength(255);
+            entity.Property(e => e.CorreoElectronico).HasMaxLength(100);
+            entity.Property(e => e.Estado).HasDefaultValue(true);
+            entity.Property(e => e.NombreUsuario).HasMaxLength(100);
+            entity.Property(e => e.RolId).HasColumnName("RolID");
+            entity.Property(e => e.Telefono).HasMaxLength(15);
+
+            entity.HasOne(d => d.Rol).WithMany(p => p.Usuarios)
+                .HasForeignKey(d => d.RolId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Usuario_Rol");
         });
 
         OnModelCreatingPartial(modelBuilder);

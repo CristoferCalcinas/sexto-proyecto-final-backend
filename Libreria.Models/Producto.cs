@@ -1,4 +1,4 @@
-﻿namespace Libreria.Models;
+﻿namespace Libreria.DataAccessLayer.Migracion;
 
 public partial class Producto
 {

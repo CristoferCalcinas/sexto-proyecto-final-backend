@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Libreria.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Libreria.DataAccessLayer.Migracion;
+namespace Libreria.DataAccessLayer.DataContext;
 
 public partial class LibreriaContext : DbContext
 {

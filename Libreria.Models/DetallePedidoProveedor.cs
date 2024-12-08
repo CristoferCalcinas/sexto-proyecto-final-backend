@@ -1,4 +1,4 @@
-﻿namespace Libreria.DataAccessLayer.Migracion;
+﻿namespace Libreria.Models;
 
 public partial class DetallePedidoProveedor
 {

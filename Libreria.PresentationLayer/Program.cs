@@ -26,17 +26,17 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<ICarritoRepository, CarritoRepository>();
 builder.Services.AddScoped<ICategoriumRepository, CategoriumRepository>();
 builder.Services.AddScoped<IComprasRepository, CompraRepository>();
-builder.Services.AddScoped<IGenericRepository<Cupon>, CuponRepository>();
 builder.Services.AddScoped<IDetalleCarritoRepository, DetalleCarritoRepository>();
+builder.Services.AddScoped<IGenericRepository<Cupon>, CuponRepository>();
 builder.Services.AddScoped<IGenericRepository<DetalleCompra>, DetalleCompraRepository>();
 builder.Services.AddScoped<IGenericRepository<DetallePedidoProveedor>, DetallePedidoProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Envio>, EnvioRepository>();
 builder.Services.AddScoped<IGenericRepository<Inventario>, InventarioRepository>();
 builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PedidoProveedorRepository>();
-builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<IGenericRepository<Promocion>, PromocionRepository>();
-builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddScoped<IGenericRepository<Sucursal>, SucursalRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
@@ -55,8 +55,8 @@ builder.Services.AddScoped<IPedidoProveedorService, PedidoProveedorService>();
 builder.Services.AddScoped<IProductosService, ProductosService>();
 builder.Services.AddScoped<IPromocionService, PromocionService>();
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
-builder.Services.AddScoped<ISucursalService, SucursalService>();
 builder.Services.AddScoped<IRolService, RolService>();
+builder.Services.AddScoped<ISucursalService, SucursalService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 

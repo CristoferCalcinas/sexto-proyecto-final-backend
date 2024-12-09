@@ -32,6 +32,11 @@ public class UsuarioService : IUsuarioService
         return await _repository.GetByIdAsync(id);
     }
 
+    public Task<Usuario> Login(string correoElectronico, string password)
+    {
+        return _repository.LoginAsync(correoElectronico, password);
+    }
+
     public async Task<Usuario> UpdateUsuario(Usuario usuario)
     {
         return await _repository.UpdateAsync(usuario);

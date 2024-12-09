@@ -9,4 +9,5 @@ public interface IUsuarioService
     Task<IQueryable<Usuario>> GetAllUsuario();
     Task<Usuario> GetUsuarioById(int id);
     Task<Usuario> UpdateUsuario(Usuario usuario);
+    Task<Usuario> Login(string correoElectronico, string password);
 }

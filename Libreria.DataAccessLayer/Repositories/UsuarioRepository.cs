@@ -1,6 +1,7 @@
 using Libreria.Models;
 using Libreria.DataAccessLayer.Repositories.Contract;
 using Libreria.DataAccessLayer.DataContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.DataAccessLayer.Repositories;
 
@@ -71,9 +72,27 @@ public class UsuarioRepository : IUsuarioRepository
         try
         {
             var entity = await _context.Usuarios.FindAsync(id);
-            if ( entity != null)
+            if (entity != null)
             {
                 return entity;
+            }
+            throw new Exception("Usuario no encontrado");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+    }
+
+    public async Task<Usuario> LoginAsync(string correoElectronico, string password)
+    {
+        try
+        {
+            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.CorreoElectronico == correoElectronico && u.Contrasena == password);
+            if (user != null)
+            {
+                return user;
             }
             throw new Exception("Usuario no encontrado");
         }

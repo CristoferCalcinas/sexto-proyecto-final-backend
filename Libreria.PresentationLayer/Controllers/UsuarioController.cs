@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Libreria.BusinessLogicLayer.Servicios.Contracts;
 using Libreria.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -90,5 +91,51 @@ namespace Libreria.PresentationLayer.Controllers
                 throw;
             }
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { mensaje = "Datos de inicio de sesión inválidos" });
+            }
+
+            try
+            {
+                var usuario = await _service.Login(loginRequest.CorreoElectronico, loginRequest.Password);
+
+                if (usuario == null)
+                {
+                    return Unauthorized(new { mensaje = "Credenciales inválidas" });
+                }
+
+                return Ok(new
+                {
+                    mensaje = "Inicio de sesión exitoso",
+                    usuario = usuario
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al iniciar sesión", ex.Message);
+                return StatusCode(500, new
+                {
+                    mensaje = "Error interno del servidor",
+                    detalles = "No se pudo completar el inicio de sesión"
+                });
+            }
+        }
     }
+}
+
+
+public class LoginRequestDto
+{
+    [Required(ErrorMessage = "El correo electrónico es obligatorio")]
+    [EmailAddress(ErrorMessage = "Formato de correo electrónico inválido")]
+    public required string CorreoElectronico { get; set; }
+
+    [Required(ErrorMessage = "La contraseña es obligatoria")]
+    [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
+    public required string Password { get; set; }
 }

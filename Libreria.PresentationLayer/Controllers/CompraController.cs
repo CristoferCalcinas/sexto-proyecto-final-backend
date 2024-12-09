@@ -59,7 +59,7 @@ namespace Libreria.PresentationLayer.Controllers
 
                 Compra newCompra = new Compra
                 {
-                    ClienteId = compra.ClienteId,
+                    UsuarioId = compra.ClienteId,
                     Estado = compra.Estado,
                     FechaCompra = DateOnly.FromDateTime(DateTime.Now),
                     TotalCompra = compra.Cantidad * producto.Precio,
@@ -99,7 +99,7 @@ namespace Libreria.PresentationLayer.Controllers
                     Compra newCompra = new Compra
                     {
                         Id = compraToDatabase.Id,
-                        ClienteId = compraToDatabase.ClienteId,
+                        UsuarioId = compraToDatabase.UsuarioId,
                         Estado = compra.Estado,
                         FechaCompra = compraToDatabase.FechaCompra,
                         TotalCompra = compraToDatabase.TotalCompra,

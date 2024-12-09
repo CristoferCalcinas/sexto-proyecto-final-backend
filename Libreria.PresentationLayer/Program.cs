@@ -48,7 +48,6 @@ builder.Services.AddScoped<ICuponService, CuponService>();
 builder.Services.AddScoped<IDetalleCarritoService, DetalleCarritoService>();
 builder.Services.AddScoped<IDetalleCompraService, DetalleCompraService>();
 builder.Services.AddScoped<IDetallePedidoProveedorService, DetallePedidoProveedorService>();
-builder.Services.AddScoped<IDireccionClienteService, DireccionClienteService>();
 builder.Services.AddScoped<IEnvioService, EnvioService>();
 builder.Services.AddScoped<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IPedidoProveedorService, PedidoProveedorService>();

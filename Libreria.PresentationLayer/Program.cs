@@ -31,8 +31,6 @@ builder.Services.AddScoped<IGenericRepository<Cupon>, CuponRepository>();
 builder.Services.AddScoped<IDetalleCarritoRepository, DetalleCarritoRepository>();
 builder.Services.AddScoped<IGenericRepository<DetalleCompra>, DetalleCompraRepository>();
 builder.Services.AddScoped<IGenericRepository<DetallePedidoProveedor>, DetallePedidoProveedorRepository>();
-builder.Services.AddScoped<IGenericRepository<DireccionCliente>, DireccionClienteRepository>();
-builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
 builder.Services.AddScoped<IGenericRepository<Envio>, EnvioRepository>();
 builder.Services.AddScoped<IGenericRepository<Inventario>, InventarioRepository>();
 builder.Services.AddScoped<IGenericRepository<PedidoProveedor>, PedidoProveedorRepository>();

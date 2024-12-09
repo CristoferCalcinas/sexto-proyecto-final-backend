@@ -25,7 +25,6 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<ICarritoRepository, CarritoRepository>();
 builder.Services.AddScoped<ICategoriumRepository, CategoriumRepository>();
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IComprasRepository, CompraRepository>();
 builder.Services.AddScoped<IGenericRepository<Cupon>, CuponRepository>();
 builder.Services.AddScoped<IDetalleCarritoRepository, DetalleCarritoRepository>();
@@ -44,14 +43,12 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 builder.Services.AddScoped<ICarritoService, CarritoService>();
 builder.Services.AddScoped<ICategoriumService, CategoriumService>();
-builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<ICompraService, ComprasService>();
 builder.Services.AddScoped<ICuponService, CuponService>();
 builder.Services.AddScoped<IDetalleCarritoService, DetalleCarritoService>();
 builder.Services.AddScoped<IDetalleCompraService, DetalleCompraService>();
 builder.Services.AddScoped<IDetallePedidoProveedorService, DetallePedidoProveedorService>();
 builder.Services.AddScoped<IDireccionClienteService, DireccionClienteService>();
-builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
 builder.Services.AddScoped<IEnvioService, EnvioService>();
 builder.Services.AddScoped<IInventarioService, InventarioService>();
 builder.Services.AddScoped<IPedidoProveedorService, PedidoProveedorService>();

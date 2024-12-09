@@ -71,7 +71,7 @@ public class UsuarioRepository : IUsuarioRepository
     {
         try
         {
-            var entity = await _context.Usuarios.FindAsync(id);
+            var entity = await _context.Usuarios.Include(r => r.Rol).FirstOrDefaultAsync(u => u.Id == id);
             if (entity != null)
             {
                 return entity;
@@ -89,7 +89,9 @@ public class UsuarioRepository : IUsuarioRepository
     {
         try
         {
-            var user = await _context.Usuarios.FirstOrDefaultAsync(u => u.CorreoElectronico == correoElectronico && u.Contrasena == password);
+            var user = await _context.Usuarios
+                                            .Include(r => r.Rol)
+                                            .FirstOrDefaultAsync(u => u.CorreoElectronico == correoElectronico && u.Contrasena == password);
             if (user != null)
             {
                 return user;

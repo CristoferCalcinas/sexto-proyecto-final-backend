@@ -53,7 +53,7 @@ namespace Libreria.PresentationLayer.Controllers
             {
                 Carrito newCarritoCompra = new Carrito
                 {
-                    ClienteId = carritoCompra.ClienteId,
+                    UsuarioId = carritoCompra.UsuarioId,
                     FechaCreacion = carritoCompra.FechaCreación,
                     EstadoCarrito = carritoCompra.EstadoCarrito,
                 };
@@ -76,7 +76,7 @@ namespace Libreria.PresentationLayer.Controllers
                 Carrito newCarritoCompra = new Carrito
                 {
                     Id = carritoCompra.Id,
-                    ClienteId = carritoCompra.ClienteId,
+                    UsuarioId = carritoCompra.UsuarioId,
                     FechaCreacion = carritoCompra.FechaCreación,
                     EstadoCarrito = carritoCompra.EstadoCarrito,
                 };

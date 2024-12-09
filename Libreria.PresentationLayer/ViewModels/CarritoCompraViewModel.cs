@@ -4,7 +4,7 @@ public class CarritoCompraViewModel
 {
     public int Id { get; set; }
 
-    public int ClienteId { get; set; }
+    public int UsuarioId { get; set; }
 
     public DateOnly FechaCreación { get; set; }
 

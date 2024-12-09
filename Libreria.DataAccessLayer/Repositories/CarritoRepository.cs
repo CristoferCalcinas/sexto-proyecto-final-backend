@@ -114,7 +114,7 @@ public class CarritoRepository : ICarritoRepository
                                           .Include(c => c.DetalleCarritos)
                                           .ThenInclude(dc => dc.Producto)
                                           //   .ThenInclude(p => p.Categoria)
-                                          .Where(c => c.ClienteId == id && c.EstadoCarrito == "Activo")
+                                          .Where(c => c.UsuarioId == id && c.EstadoCarrito == "Activo")
                                           //   .Take(5)
                                           .ToListAsync();
             return carritos;
@@ -125,13 +125,13 @@ public class CarritoRepository : ICarritoRepository
         }
     }
 
-    public async Task<Carrito> GetLastCarritoCompraAsync(int clienteId)
+    public async Task<Carrito> GetLastCarritoCompraAsync(int usuarioId)
     {
         try
         {
             // Busca un carrito activo del cliente
             var carrito = await _context.Carritos
-                .Where(c => c.ClienteId == clienteId && c.EstadoCarrito == "Activo")
+                .Where(c => c.UsuarioId == usuarioId && c.EstadoCarrito == "Activo")
                 .OrderByDescending(c => c.Id)
                 .FirstOrDefaultAsync();
 
@@ -143,7 +143,7 @@ public class CarritoRepository : ICarritoRepository
                 {
                     Carrito newCarrito = new Carrito
                     {
-                        ClienteId = clienteId,
+                        UsuarioId = usuarioId,
                         FechaCreacion = DateOnly.FromDateTime(DateTime.Now),
                         EstadoCarrito = "Activo",
                     };

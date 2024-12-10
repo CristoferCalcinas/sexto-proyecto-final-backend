@@ -10,4 +10,5 @@ public interface IUsuarioService
     Task<Usuario> GetUsuarioById(int id);
     Task<Usuario> UpdateUsuario(Usuario usuario);
     Task<Usuario> Login(string correoElectronico, string password);
+    Task<Usuario> ChangeRoleToUser(int usuarioId);
 }

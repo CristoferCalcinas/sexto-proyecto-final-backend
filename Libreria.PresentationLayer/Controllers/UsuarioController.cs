@@ -76,6 +76,21 @@ namespace Libreria.PresentationLayer.Controllers
             }
         }
 
+        [HttpPatch("{userId}")]
+        public async Task<IActionResult> ChangeRoleToUser(int userId)
+        {
+            try
+            {
+                var usuario = await _service.ChangeRoleToUser(userId);
+                return Ok(usuario);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al cambiar el rol del usuario", ex.Message);
+                throw;
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsuario(int id)
         {

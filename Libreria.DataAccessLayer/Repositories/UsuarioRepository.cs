@@ -57,7 +57,7 @@ public class UsuarioRepository : IUsuarioRepository
     {
         try
         {
-            IQueryable<Usuario> usuarios = _context.Usuarios;
+            IQueryable<Usuario> usuarios = _context.Usuarios.Include(r => r.Rol);
             return Task.FromResult(usuarios);
         }
         catch (Exception ex)

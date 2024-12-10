@@ -76,12 +76,12 @@ namespace Libreria.PresentationLayer.Controllers
             }
         }
 
-        [HttpPatch("{userId}")]
-        public async Task<IActionResult> ChangeRoleToUser(int userId)
+        [HttpPatch]
+        public async Task<IActionResult> ChangeRoleToUser([FromBody] UserRoleChangeRequest request)
         {
             try
             {
-                var usuario = await _service.ChangeRoleToUser(userId);
+                var usuario = await _service.ChangeRoleToUser(request.UserId);
                 return Ok(usuario);
             }
             catch (Exception ex)
@@ -143,6 +143,7 @@ namespace Libreria.PresentationLayer.Controllers
     }
 }
 
+public record UserRoleChangeRequest(int UserId);
 
 public class LoginRequestDto
 {

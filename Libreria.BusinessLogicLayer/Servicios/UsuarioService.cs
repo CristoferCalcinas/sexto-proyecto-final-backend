@@ -17,6 +17,11 @@ public class UsuarioService : IUsuarioService
         return await _repository.AddAsync(usuario);
     }
 
+    public async Task<Usuario> ChangeRoleToEmployee(int usuarioId)
+    {
+        return await _repository.ChangeRoleToEmployeeAsync(usuarioId);
+    }
+
     public Task<Usuario> ChangeRoleToUser(int usuarioId)
     {
         return _repository.ChangeRoleToUserAsync(usuarioId);

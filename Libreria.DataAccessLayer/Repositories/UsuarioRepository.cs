@@ -149,4 +149,31 @@ public class UsuarioRepository : IUsuarioRepository
             throw;
         }
     }
+
+    
+    public async Task<Usuario> ChangeRoleToEmployeeAsync(int usuarioId)
+    {
+        var usuario = await _context.Usuarios.FindAsync(usuarioId)
+            ?? throw new InvalidOperationException($"Usuario con ID {usuarioId} no encontrado");
+
+        var rolUsuario = await _context.Rols
+            .FirstOrDefaultAsync(r => r.NombreRol == "Empleado")
+            ?? throw new InvalidOperationException("Rol de Usuario no encontrado");
+
+        usuario.RolId = rolUsuario.Id;
+
+        try
+        {
+            _context.Usuarios.Update(usuario);
+            await _context.SaveChangesAsync();
+
+            return usuario;
+        }
+        catch (DbUpdateException ex)
+        {
+            Console.WriteLine($"Error al actualizar rol de usuario {usuarioId}", ex);
+            throw;
+        }
+    }
+
 }

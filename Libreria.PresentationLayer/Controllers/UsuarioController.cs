@@ -122,6 +122,21 @@ namespace Libreria.PresentationLayer.Controllers
             }
         }
 
+        [HttpPatch("inactive")]
+        public async Task<IActionResult> SetUserInactive([FromBody] UserRoleChangeRequest request)
+        {
+            try
+            {
+                var usuario = await _service.SetUserInactive(request.UserId);
+                return Ok(usuario);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al cambiar el estado del usuario", ex.Message);
+                throw;
+            }
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequest)
         {

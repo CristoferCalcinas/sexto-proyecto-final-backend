@@ -47,6 +47,11 @@ public class UsuarioService : IUsuarioService
         return _repository.LoginAsync(correoElectronico, password);
     }
 
+    public Task<Usuario> SetUserInactive(int usuarioId)
+    {
+        return _repository.SetUserInactiveAsync(usuarioId);
+    }
+
     public async Task<Usuario> UpdateUsuario(Usuario usuario)
     {
         return await _repository.UpdateAsync(usuario);

@@ -10,4 +10,5 @@ public interface IProductosService
     Task<Producto> GetProductorById(int id);
     Task<Producto> UpdateProducto(Producto producto);
     Task<List<Producto>> GetProductosByName(string nameProduct);
+    Task<List<Producto>> ReduceProductQuantity(List<ReduceProductQuantity> reduceProductQuantity);
 }

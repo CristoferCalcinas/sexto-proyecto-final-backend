@@ -88,6 +88,51 @@ public class ProductoRepository : IProductoRepository
         }
     }
 
+    public async Task<List<Producto>> ReduceProductQuantityAsync(List<ReduceProductQuantity> reduceProductQuantity)
+    {
+        // Iniciar la transacción
+        await using var transaction = await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+            var productosActualizados = new List<Producto>();
+
+            foreach (var reduction in reduceProductQuantity)
+            {
+                var producto = await _context.Productos
+                    .FirstOrDefaultAsync(p => p.Id == reduction.ProductoId);
+
+                if (producto == null)
+                {
+                    throw new ArgumentException($"Producto con ID {reduction.ProductoId} no encontrado.");
+                }
+
+                if (producto.CantidadStock < reduction.Cantidad)
+                {
+                    throw new InvalidOperationException(
+                        $"Stock insuficiente para el producto {producto.NombreProducto}. " +
+                        $"Stock actual: {producto.CantidadStock}, Cantidad solicitada: {reduction.Cantidad}");
+                }
+
+                producto.CantidadStock -= reduction.Cantidad;
+                productosActualizados.Add(producto);
+            }
+
+            await _context.SaveChangesAsync();
+
+            // Confirmar la transacción
+            await transaction.CommitAsync();
+
+            return productosActualizados;
+        }
+        catch
+        {
+            // Revertir la transacción en caso de error
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+
     public async Task<List<Producto>> SearchProductsByNameAsync(string textSearch)
     {
         try

@@ -32,3 +32,5 @@ public partial class Producto
 
     public virtual Proveedor Proveedor { get; set; } = null!;
 }
+
+public record ReduceProductQuantity(int Cantidad, int ProductoId);

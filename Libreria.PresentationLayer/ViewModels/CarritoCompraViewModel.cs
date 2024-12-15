@@ -10,3 +10,5 @@ public class CarritoCompraViewModel
 
     public string EstadoCarrito { get; set; } = null!;
 }
+
+public record ChangeStateCarritoCompraViewModel(int CarritoId);

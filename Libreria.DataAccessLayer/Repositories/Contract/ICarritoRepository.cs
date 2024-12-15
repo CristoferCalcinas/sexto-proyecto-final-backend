@@ -6,4 +6,5 @@ public interface ICarritoRepository : IGenericRepository<Carrito>
 {
     Task<List<Carrito>> GetAllWithDetailsAsync(int id);
     Task<Carrito> GetLastCarritoCompraAsync(int clienteId);
+    Task<Carrito> ChangeStateCarritoCompraAsync(int carritoId, string estado);
 }

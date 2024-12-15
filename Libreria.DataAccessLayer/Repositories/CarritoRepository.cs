@@ -125,6 +125,8 @@ public class CarritoRepository : ICarritoRepository
         }
     }
 
+    // Método para obtener el último carrito de compra activo del cliente
+    // Si no hay un carrito activo, crea uno nuevo
     public async Task<Carrito> GetLastCarritoCompraAsync(int usuarioId)
     {
         try
@@ -156,6 +158,25 @@ public class CarritoRepository : ICarritoRepository
         catch (Exception ex)
         {
             throw new Exception($"Error al obtener o crear el carrito de compra: {ex.Message}");
+        }
+    }
+
+    public async Task<Carrito> ChangeStateCarritoCompraAsync(int carritoId, string estado)
+    {
+        try
+        {
+            var carrito = await _context.Carritos.FindAsync(carritoId);
+            if (carrito != null)
+            {
+                carrito.EstadoCarrito = estado;
+                await _context.SaveChangesAsync();
+                return carrito;
+            }
+            throw new Exception("Carrito de compra no encontrado");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Error al cambiar el estado del carrito de compra: {ex.Message}");
         }
     }
 }

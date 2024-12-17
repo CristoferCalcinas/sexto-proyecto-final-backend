@@ -130,5 +130,20 @@ namespace Libreria.PresentationLayer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpGet("purchases/user")]
+        public async Task<IActionResult> GetComprasByUser(int userId)
+        {
+            try
+            {
+                var compras = await _service.GetComprasAndDetailsByUser(userId);
+                return Ok(compras);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

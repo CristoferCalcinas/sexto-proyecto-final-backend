@@ -102,6 +102,24 @@ public class CompraRepository : IComprasRepository
         }
     }
 
+    public async Task<Compra> GetComprasAndDetailsByUserAsync(int userId)
+    {
+        try
+        {
+            var compras = await _context.Compras.Include(c => c.DetalleCompras).ThenInclude(p => p.Producto).Where(c => c.UsuarioId == userId).FirstOrDefaultAsync();
+            if (compras != null)
+            {
+                return compras;
+            }
+            throw new Exception("Compras no encontradas");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
+    }
+
     public async Task<Producto> GetProductById(int productoId)
     {
         try

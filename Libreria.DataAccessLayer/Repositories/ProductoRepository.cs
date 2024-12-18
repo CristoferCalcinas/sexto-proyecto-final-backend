@@ -90,20 +90,23 @@ public class ProductoRepository : IProductoRepository
 
     public async Task<List<Producto>> ReduceProductQuantityAsync(List<ReduceProductQuantity> reduceProductQuantity, int usuarioId)
     {
-        // Iniciar la transacción
         await using var transaction = await _context.Database.BeginTransactionAsync();
 
         try
         {
+            // Obtener todos los productos en una sola consulta
+            var productoIds = reduceProductQuantity.Select(r => r.ProductoId).Distinct().ToList();
+            var productos = await _context.Productos
+                .Where(p => productoIds.Contains(p.Id))
+                .ToDictionaryAsync(p => p.Id, p => p);
+
             var productosActualizados = new List<Producto>();
             decimal totalSummary = 0;
 
+            // Validar stock y calcular total en una sola pasada
             foreach (var reduction in reduceProductQuantity)
             {
-                var producto = await _context.Productos
-                    .FirstOrDefaultAsync(p => p.Id == reduction.ProductoId);
-
-                if (producto == null)
+                if (!productos.TryGetValue(reduction.ProductoId, out var producto))
                 {
                     throw new ArgumentException($"Producto con ID {reduction.ProductoId} no encontrado.");
                 }
@@ -120,53 +123,42 @@ public class ProductoRepository : IProductoRepository
                 productosActualizados.Add(producto);
             }
 
-            Compra compra = new Compra
+            var compra = new Compra
             {
                 Estado = "Pendiente",
                 FechaCompra = DateOnly.FromDateTime(DateTime.Now),
                 TotalCompra = totalSummary,
-                UsuarioId = usuarioId,
+                UsuarioId = usuarioId
             };
 
+            // Agregar la compra primero para obtener su ID
             await _context.Compras.AddAsync(compra);
             await _context.SaveChangesAsync();
 
-            if (compra.Id == 0)
+            // Crear detalles de compra
+            var detallesCompra = reduceProductQuantity.Select(reduction => new DetalleCompra
             {
-                throw new InvalidOperationException("El ID de la compra no puede ser 0");
-            }
+                CompraId = compra.Id,
+                ProductoId = reduction.ProductoId,
+                Cantidad = reduction.Cantidad,
+                PrecioUnitario = productos[reduction.ProductoId].Precio,
+                Subtotal = productos[reduction.ProductoId].Precio * reduction.Cantidad
+            }).ToList();
 
-            foreach (var reduction in reduceProductQuantity)
-            {
-                DetalleCompra detalleCompra = new DetalleCompra
-                {
-                    CompraId = compra.Id,
-                    ProductoId = reduction.ProductoId,
-                    Cantidad = reduction.Cantidad,
-                    PrecioUnitario = productosActualizados
-                        .FirstOrDefault(p => p.Id == reduction.ProductoId)?.Precio ?? throw new InvalidOperationException("Precio unitario no encontrado"),
-                    Subtotal = productosActualizados
-                        .FirstOrDefault(p => p.Id == reduction.ProductoId)?.Precio * reduction.Cantidad ?? throw new InvalidOperationException("Subtotal no encontrado"),
-                };
-
-                await _context.DetalleCompras.AddAsync(detalleCompra);
-            }
-
+            await _context.DetalleCompras.AddRangeAsync(detallesCompra);
             await _context.SaveChangesAsync();
 
-            // Confirmar la transacción
             await transaction.CommitAsync();
 
             return productosActualizados;
         }
         catch
         {
-            // Revertir la transacción en caso de error
             await transaction.RollbackAsync();
             throw;
         }
     }
-
+    
     public async Task<List<Producto>> SearchProductsByNameAsync(string textSearch)
     {
         try

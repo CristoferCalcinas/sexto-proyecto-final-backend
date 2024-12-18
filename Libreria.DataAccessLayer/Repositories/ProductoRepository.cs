@@ -88,7 +88,7 @@ public class ProductoRepository : IProductoRepository
         }
     }
 
-    public async Task<List<Producto>> ReduceProductQuantityAsync(List<ReduceProductQuantity> reduceProductQuantity)
+    public async Task<List<Producto>> ReduceProductQuantityAsync(List<ReduceProductQuantity> reduceProductQuantity, int usuarioId)
     {
         // Iniciar la transacción
         await using var transaction = await _context.Database.BeginTransactionAsync();
@@ -96,6 +96,7 @@ public class ProductoRepository : IProductoRepository
         try
         {
             var productosActualizados = new List<Producto>();
+            decimal totalSummary = 0;
 
             foreach (var reduction in reduceProductQuantity)
             {
@@ -114,8 +115,41 @@ public class ProductoRepository : IProductoRepository
                         $"Stock actual: {producto.CantidadStock}, Cantidad solicitada: {reduction.Cantidad}");
                 }
 
+                totalSummary += producto.Precio * reduction.Cantidad;
                 producto.CantidadStock -= reduction.Cantidad;
                 productosActualizados.Add(producto);
+            }
+
+            Compra compra = new Compra
+            {
+                Estado = "Pendiente",
+                FechaCompra = DateOnly.FromDateTime(DateTime.Now),
+                TotalCompra = totalSummary,
+                UsuarioId = usuarioId,
+            };
+
+            await _context.Compras.AddAsync(compra);
+            await _context.SaveChangesAsync();
+
+            if (compra.Id == 0)
+            {
+                throw new InvalidOperationException("El ID de la compra no puede ser 0");
+            }
+
+            foreach (var reduction in reduceProductQuantity)
+            {
+                DetalleCompra detalleCompra = new DetalleCompra
+                {
+                    CompraId = compra.Id,
+                    ProductoId = reduction.ProductoId,
+                    Cantidad = reduction.Cantidad,
+                    PrecioUnitario = productosActualizados
+                        .FirstOrDefault(p => p.Id == reduction.ProductoId)?.Precio ?? throw new InvalidOperationException("Precio unitario no encontrado"),
+                    Subtotal = productosActualizados
+                        .FirstOrDefault(p => p.Id == reduction.ProductoId)?.Precio * reduction.Cantidad ?? throw new InvalidOperationException("Subtotal no encontrado"),
+                };
+
+                await _context.DetalleCompras.AddAsync(detalleCompra);
             }
 
             await _context.SaveChangesAsync();

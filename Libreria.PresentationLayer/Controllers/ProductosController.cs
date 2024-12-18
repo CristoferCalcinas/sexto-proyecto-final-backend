@@ -102,7 +102,7 @@ namespace Libreria.PresentationLayer.Controllers
         }
 
         [HttpPatch("reduceToCart")]
-        public async Task<IActionResult> ReduceProductQuantity([FromBody] List<ReduceProductQuantity> reduceProductQuantityList)
+        public async Task<IActionResult> ReduceProductQuantity([FromBody] List<ReduceProductQuantity> reduceProductQuantityList, int usuarioId)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace Libreria.PresentationLayer.Controllers
                 if(reduceProductQuantityList.Any(x => x.Cantidad <= 0))
                     return BadRequest("La cantidad de productos a reducir debe ser mayor a 0");
 
-                var productos = await _service.ReduceProductQuantity(reduceProductQuantityList);
+                var productos = await _service.ReduceProductQuantity(reduceProductQuantityList, usuarioId);
                 return Ok(productos);
             }
             catch (Exception ex)

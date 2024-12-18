@@ -36,9 +36,9 @@ public class ProductosService : IProductosService
         return await _genericRepository.SearchProductsByNameAsync(nameProduct);
     }
 
-    public async Task<List<Producto>> ReduceProductQuantity(List<ReduceProductQuantity> reduceProductQuantity)
+    public async Task<List<Producto>> ReduceProductQuantity(List<ReduceProductQuantity> reduceProductQuantity, int usuarioId)
     {
-        return await _genericRepository.ReduceProductQuantityAsync(reduceProductQuantity);
+        return await _genericRepository.ReduceProductQuantityAsync(reduceProductQuantity, usuarioId);
     }
 
     public async Task<Producto> UpdateProducto(Producto producto)

@@ -11,5 +11,5 @@ public interface ICompraService
     Task<Compra> UpdateCompra(Compra compra);
     Task<object> AddDetalleCompra(DetalleCompra detalleCompra);
     Task<Producto> GetProduct(int productoId);
-    Task<Compra> GetComprasAndDetailsByUser(int userId);
+    Task<List<Compra>> GetComprasAndDetailsByUser(int userId);
 }

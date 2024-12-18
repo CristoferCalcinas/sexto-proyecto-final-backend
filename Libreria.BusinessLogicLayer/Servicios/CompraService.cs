@@ -37,7 +37,7 @@ public class ComprasService : ICompraService
         return await _genericRepository.GetByIdAsync(id);
     }
 
-    public async Task<Compra> GetComprasAndDetailsByUser(int userId)
+    public async Task<List<Compra>> GetComprasAndDetailsByUser(int userId)
     {
         return await _genericRepository.GetComprasAndDetailsByUserAsync(userId);
     }

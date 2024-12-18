@@ -102,11 +102,11 @@ public class CompraRepository : IComprasRepository
         }
     }
 
-    public async Task<Compra> GetComprasAndDetailsByUserAsync(int userId)
+    public async Task<List<Compra>> GetComprasAndDetailsByUserAsync(int userId)
     {
         try
         {
-            var compras = await _context.Compras.Include(c => c.DetalleCompras).ThenInclude(p => p.Producto).Where(c => c.UsuarioId == userId).FirstOrDefaultAsync();
+            var compras = await _context.Compras.Include(c => c.DetalleCompras).ThenInclude(p => p.Producto).Where(c => c.UsuarioId == userId).ToListAsync();
             if (compras != null)
             {
                 return compras;

@@ -6,5 +6,5 @@ public interface IComprasRepository : IGenericRepository<Compra>
 {
     Task<object> AddDetalleCompraAsync(DetalleCompra detalleCompra);
     Task<Producto> GetProductById(int productoId);
-    Task<Compra> GetComprasAndDetailsByUserAsync(int userId);
+    Task<List<Compra>> GetComprasAndDetailsByUserAsync(int userId);
 }

@@ -16,6 +16,12 @@ public class CarritoService : ICarritoService
         return await _genericRepository.AddAsync(carritoCompra);
     }
 
+    public Task<Carrito> ChangeStateCarritoCompra(int carritoId)
+    {
+        string estado = "Finalizado";
+        return _genericRepository.ChangeStateCarritoCompraAsync(carritoId, estado);
+    }
+
     public async Task<Carrito> DeleteCarritoCompra(int id)
     {
         return await _genericRepository.DeleteAsync(id);

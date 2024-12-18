@@ -59,7 +59,7 @@ namespace Libreria.PresentationLayer.Controllers
 
                 Compra newCompra = new Compra
                 {
-                    ClienteId = compra.ClienteId,
+                    UsuarioId = compra.ClienteId,
                     Estado = compra.Estado,
                     FechaCompra = DateOnly.FromDateTime(DateTime.Now),
                     TotalCompra = compra.Cantidad * producto.Precio,
@@ -99,7 +99,7 @@ namespace Libreria.PresentationLayer.Controllers
                     Compra newCompra = new Compra
                     {
                         Id = compraToDatabase.Id,
-                        ClienteId = compraToDatabase.ClienteId,
+                        UsuarioId = compraToDatabase.UsuarioId,
                         Estado = compra.Estado,
                         FechaCompra = compraToDatabase.FechaCompra,
                         TotalCompra = compraToDatabase.TotalCompra,
@@ -124,6 +124,21 @@ namespace Libreria.PresentationLayer.Controllers
             {
                 var result = await _service.DeleteCompra(id);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet("purchases/user")]
+        public async Task<IActionResult> GetComprasByUser(int userId)
+        {
+            try
+            {
+                var compras = await _service.GetComprasAndDetailsByUser(userId);
+                return Ok(compras);
             }
             catch (Exception ex)
             {

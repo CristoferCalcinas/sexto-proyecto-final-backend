@@ -45,18 +45,18 @@ public class CompraRepository : IComprasRepository
     {
         try
         {
-            var cuponToDelete = _context.Compras.Find(id);
-            if (cuponToDelete != null)
+            var compraToDelete = _context.Compras.Find(id);
+            if (compraToDelete != null)
             {
-                _context.Compras.Remove(cuponToDelete);
+                _context.Compras.Remove(compraToDelete);
                 _context.SaveChanges();
-                return Task.FromResult(cuponToDelete);
+                return Task.FromResult(compraToDelete);
             }
-            throw new Exception("Cupón no encontrado");
+            throw new Exception("Compra no encontrada");
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error al eliminar el cupón: {ex.Message}");
+            throw new Exception($"Error al eliminar la compra: {ex.Message}");
         }
     }
 
@@ -76,12 +76,12 @@ public class CompraRepository : IComprasRepository
     {
         try
         {
-            IQueryable<Compra> cupones = _context.Compras;
-            return Task.FromResult(cupones);
+            IQueryable<Compra> compras = _context.Compras;
+            return Task.FromResult(compras);
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error al obtener los cupones: {ex.Message}");
+            throw new Exception($"Error al obtener las compras: {ex.Message}");
         }
     }
 
@@ -89,16 +89,34 @@ public class CompraRepository : IComprasRepository
     {
         try
         {
-            var cuponToDatabase = await _context.Compras.FindAsync(id);
-            if (cuponToDatabase != null)
+            var compraToDatabase = await _context.Compras.FindAsync(id);
+            if (compraToDatabase != null)
             {
-                return cuponToDatabase;
+                return compraToDatabase;
             }
-            throw new Exception("Cupón no encontrado");
+            throw new Exception("Compra no encontrada");
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error al obtener el cupón: {ex.Message}");
+            throw new Exception($"Error al obtener la compra: {ex.Message}");
+        }
+    }
+
+    public async Task<List<Compra>> GetComprasAndDetailsByUserAsync(int userId)
+    {
+        try
+        {
+            var compras = await _context.Compras.Include(c => c.DetalleCompras).ThenInclude(p => p.Producto).Where(c => c.UsuarioId == userId).ToListAsync();
+            if (compras != null)
+            {
+                return compras;
+            }
+            throw new Exception("Compras no encontradas");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
         }
     }
 
@@ -124,18 +142,18 @@ public class CompraRepository : IComprasRepository
     {
         try
         {
-            var cuponToDatabase = await _context.Compras.FindAsync(entity.Id);
-            if (cuponToDatabase != null)
+            var compraToDatabase = await _context.Compras.FindAsync(entity.Id);
+            if (compraToDatabase != null)
             {
                 _context.Compras.Update(entity);
                 await _context.SaveChangesAsync();
                 return entity;
             }
-            throw new Exception("Cupón no encontrado");
+            throw new Exception("Compra no encontrada");
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error al actualizar el cupón: {ex.Message}");
+            throw new Exception($"Error al actualizar la compra: {ex.Message}");
         }
     }
 }

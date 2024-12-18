@@ -1,76 +1,54 @@
--- Creación de la base de datos
-CREATE DATABASE Libreria;
-
-USE Libreria;
-
--- Tabla Cliente
+-- 1. Tabla Rol
 CREATE TABLE
-    Cliente (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        NombreCliente NVARCHAR (100) NOT NULL,
-        CorreoElectronico NVARCHAR (100) NOT NULL,
+    Rol (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        NombreRol NVARCHAR (50) NOT NULL UNIQUE,
+        Descripcion NVARCHAR (255)
+    );
+
+-- 2. Tabla Usuario
+CREATE TABLE
+    Usuario (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        NombreUsuario NVARCHAR (100) NOT NULL,
+        CorreoElectronico NVARCHAR (100) NOT NULL UNIQUE,
+        Contrasena NVARCHAR (255) NOT NULL, -- Almacenar hash de contraseña
+        RolID INT NOT NULL,
         FechaRegistro DATE NOT NULL,
-        PRIMARY KEY (Id)
+        Telefono NVARCHAR (15),
+        Estado BIT DEFAULT 1, -- Activo/Inactivo
+        CONSTRAINT FK_Usuario_Rol FOREIGN KEY (RolID) REFERENCES Rol (Id)
     );
 
--- Tabla Carrito
-CREATE TABLE
-    Carrito (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        ClienteID INT NOT NULL,
-        FechaCreacion DATE NOT NULL,
-        EstadoCarrito NVARCHAR (50) NOT NULL,
-        PRIMARY KEY (Id),
-        CONSTRAINT FK_Carrito_Cliente FOREIGN KEY (ClienteID) REFERENCES Cliente (Id)
-    );
-
--- Tabla Categoria
+-- 3. Tabla Categoria
 CREATE TABLE
     Categoria (
-        Id INT IDENTITY (1, 1) NOT NULL,
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
         NombreCategoria NVARCHAR (100) NOT NULL,
-        Descripcion NVARCHAR (255),
-        PRIMARY KEY (Id)
+        Descripcion NVARCHAR (255)
     );
 
--- Tabla Compra
-CREATE TABLE
-    Compra (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        FechaCompra DATE NOT NULL,
-        ClienteID INT NOT NULL,
-        TotalCompra DECIMAL(10, 2) NOT NULL,
-        Estado NVARCHAR (50) NOT NULL,
-        PRIMARY KEY (Id),
-        CONSTRAINT FK_Compra_Cliente FOREIGN KEY (ClienteID) REFERENCES Cliente (Id)
-    );
-
--- Tabla Cupones
-CREATE TABLE
-    Cupon (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        CodigoCupon NVARCHAR (50) NOT NULL,
-        Descripcion NVARCHAR (255),
-        Descuento DECIMAL(5, 2) NOT NULL,
-        FechaExpiracion DATE NOT NULL,
-        Estado NVARCHAR (50) NOT NULL,
-        PRIMARY KEY (Id)
-    );
-
--- Tabla Proveedor
+-- 4. Tabla Proveedor
 CREATE TABLE
     Proveedor (
-        Id INT IDENTITY (1, 1) NOT NULL,
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
         Telefono NVARCHAR (15),
         CorreoElectronico NVARCHAR (100),
-        Direccion NVARCHAR (255),
-        PRIMARY KEY (Id)
+        Direccion NVARCHAR (255)
     );
 
--- Tabla Producto
+-- 5. Tabla Sucursal
+CREATE TABLE
+    Sucursal (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        NombreSucursal NVARCHAR (100) NOT NULL,
+        Direccion NVARCHAR (255)
+    );
+
+-- 6. Tabla Producto
 CREATE TABLE
     Producto (
-        Id INT IDENTITY (1, 1) NOT NULL,
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
         NombreProducto NVARCHAR (100) NOT NULL,
         Descripcion NVARCHAR (255),
         Precio DECIMAL(10, 2) NOT NULL,
@@ -78,186 +56,214 @@ CREATE TABLE
         CategoriaID INT NOT NULL,
         FechaIngreso DATE NOT NULL,
         ProveedorID INT NOT NULL,
-        PRIMARY KEY (Id),
         CONSTRAINT FK_Producto_Categoria FOREIGN KEY (CategoriaID) REFERENCES Categoria (Id),
         CONSTRAINT FK_Producto_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
     );
 
--- Tabla DetalleCarrito
+-- 7. Tabla Carrito
+CREATE TABLE
+    Carrito (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        UsuarioID INT NOT NULL,
+        FechaCreacion DATE NOT NULL,
+        EstadoCarrito NVARCHAR (50) NOT NULL,
+        CONSTRAINT FK_Carrito_Usuario FOREIGN KEY (UsuarioID) REFERENCES Usuario (Id)
+    );
+
+-- 8. Tabla DetalleCarrito
 CREATE TABLE
     DetalleCarrito (
-        Id INT IDENTITY (1, 1) NOT NULL,
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
         CarritoID INT NOT NULL,
         ProductoID INT NOT NULL,
         Cantidad INT NOT NULL,
         PrecioUnitario DECIMAL(10, 2) NOT NULL,
-        PRIMARY KEY (Id),
         CONSTRAINT FK_DetalleCarrito_Carrito FOREIGN KEY (CarritoID) REFERENCES Carrito (Id),
         CONSTRAINT FK_DetalleCarrito_Producto FOREIGN KEY (ProductoID) REFERENCES Producto (Id)
     );
 
--- Tabla DetalleCompra
+-- 9. Tabla Compra
+CREATE TABLE
+    Compra (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        UsuarioID INT NOT NULL,
+        FechaCompra DATE NOT NULL,
+        TotalCompra DECIMAL(10, 2) NOT NULL,
+        Estado NVARCHAR (50) NOT NULL,
+        CONSTRAINT FK_Compra_Usuario FOREIGN KEY (UsuarioID) REFERENCES Usuario (Id)
+    );
+
+-- 10. Tabla DetalleCompra
 CREATE TABLE
     DetalleCompra (
-        Id INT IDENTITY (1, 1) NOT NULL,
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
         CompraID INT NOT NULL,
         ProductoID INT NOT NULL,
         Cantidad INT NOT NULL,
         PrecioUnitario DECIMAL(10, 2) NOT NULL,
         Subtotal DECIMAL(10, 2) NOT NULL,
-        PRIMARY KEY (Id),
         CONSTRAINT FK_DetalleCompra_Compra FOREIGN KEY (CompraID) REFERENCES Compra (Id),
         CONSTRAINT FK_DetalleCompra_Producto FOREIGN KEY (ProductoID) REFERENCES Producto (Id)
     );
 
--- Tabla PedidoProveedor
+-- 11. Tabla Cupon
 CREATE TABLE
-    PedidoProveedor (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        ProveedorID INT NOT NULL,
-        FechaPedido DATE NOT NULL,
-        EstadoPedido NVARCHAR (50) NOT NULL,
-        TotalPedido DECIMAL(10, 2) NOT NULL,
-        PRIMARY KEY (Id),
-        CONSTRAINT FK_PedidoProveedor_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
+    Cupon (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        CodigoCupon NVARCHAR (50) NOT NULL,
+        Descripcion NVARCHAR (255),
+        Descuento DECIMAL(5, 2) NOT NULL,
+        FechaExpiracion DATE NOT NULL,
+        Estado NVARCHAR (50) NOT NULL
     );
 
--- Tabla DetallePedidoProveedor
+-- 12. Tabla Envio
 CREATE TABLE
-    DetallePedidoProveedor (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        PedidoProveedorID INT NOT NULL,
-        ProductoID INT NOT NULL,
-        Cantidad INT NOT NULL,
-        PrecioUnitario DECIMAL(10, 2) NOT NULL,
-        Subtotal DECIMAL(10, 2) NOT NULL,
-        PRIMARY KEY (Id),
-        CONSTRAINT FK_DetallePedidoProveedor_Pedido FOREIGN KEY (PedidoProveedorID) REFERENCES PedidoProveedor (Id),
-        CONSTRAINT FK_DetallePedidoProveedor_Producto FOREIGN KEY (ProductoID) REFERENCES Producto (Id)
+    Envio (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        CompraID INT NOT NULL,
+        SucursalID INT NOT NULL,
+        FechaEnvio DATE NOT NULL,
+        EstadoEnvio NVARCHAR (50) NOT NULL,
+        CONSTRAINT FK_Envio_Compra FOREIGN KEY (CompraID) REFERENCES Compra (Id),
+        CONSTRAINT FK_Envio_Sucursal FOREIGN KEY (SucursalID) REFERENCES Sucursal (Id)
     );
 
--- Tabla Empleado
-CREATE TABLE
-    Empleado (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        NombreEmpleado NVARCHAR (100) NOT NULL,
-        CorreoElectronico NVARCHAR (100) NOT NULL,
-        Telefono NVARCHAR (15),
-        Cargo NVARCHAR (50) NOT NULL,
-        FechaContratacion DATE NOT NULL,
-        PRIMARY KEY (Id)
-    );
-
--- Tabla Inventario
+-- 13. Tabla Inventario
 CREATE TABLE
     Inventario (
-        Id INT IDENTITY (1, 1) NOT NULL,
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
         ProductoID INT NOT NULL,
         CantidadEntrante INT NOT NULL,
         FechaEntrada DATE NOT NULL,
         ProveedorID INT NOT NULL,
-        PRIMARY KEY (Id),
         CONSTRAINT FK_Inventario_Producto FOREIGN KEY (ProductoID) REFERENCES Producto (Id),
         CONSTRAINT FK_Inventario_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
     );
 
--- Tabla Promocion
+-- 14. Tabla Promocion
 CREATE TABLE
     Promocion (
-        Id INT IDENTITY (1, 1) NOT NULL,
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
         NombrePromocion NVARCHAR (100) NOT NULL,
         Descripcion NVARCHAR (255),
         FechaInicio DATE NOT NULL,
         FechaFin DATE NOT NULL,
         Descuento DECIMAL(5, 2) NOT NULL,
         ProductoID INT NOT NULL,
-        PRIMARY KEY (Id),
         CONSTRAINT FK_Promocion_Producto FOREIGN KEY (ProductoID) REFERENCES Producto (Id)
     );
 
--- Nuevas tablas agregadas
--- Tabla Sucursal
+-- 15. Tabla PedidoProveedor
 CREATE TABLE
-    Sucursal (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        NombreSucursal NVARCHAR (100) NOT NULL,
-        Direccion NVARCHAR (255),
-        PRIMARY KEY (Id)
+    PedidoProveedor (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        ProveedorID INT NOT NULL,
+        FechaPedido DATE NOT NULL,
+        EstadoPedido NVARCHAR (50) NOT NULL,
+        TotalPedido DECIMAL(10, 2) NOT NULL,
+        CONSTRAINT FK_PedidoProveedor_Proveedor FOREIGN KEY (ProveedorID) REFERENCES Proveedor (Id)
     );
 
--- Tabla Envio (Relacion con Sucursal y Compra)
+-- 16. Tabla DetallePedidoProveedor
 CREATE TABLE
-    Envio (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        CompraID INT NOT NULL,
-        SucursalID INT NOT NULL,
-        FechaEnvio DATE NOT NULL,
-        EstadoEnvio NVARCHAR (50) NOT NULL,
-        PRIMARY KEY (Id),
-        CONSTRAINT FK_Envio_Compra FOREIGN KEY (CompraID) REFERENCES Compra (Id),
-        CONSTRAINT FK_Envio_Sucursal FOREIGN KEY (SucursalID) REFERENCES Sucursal (Id)
+    DetallePedidoProveedor (
+        Id INT IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+        PedidoProveedorID INT NOT NULL,
+        ProductoID INT NOT NULL,
+        Cantidad INT NOT NULL,
+        PrecioUnitario DECIMAL(10, 2) NOT NULL,
+        Subtotal DECIMAL(10, 2) NOT NULL,
+        CONSTRAINT FK_DetallePedidoProveedor_Pedido FOREIGN KEY (PedidoProveedorID) REFERENCES PedidoProveedor (Id),
+        CONSTRAINT FK_DetallePedidoProveedor_Producto FOREIGN KEY (ProductoID) REFERENCES Producto (Id)
     );
 
--- Tabla DireccionCliente (Relacion con Cliente y Sucursal)
-CREATE TABLE
-    DireccionCliente (
-        Id INT IDENTITY (1, 1) NOT NULL,
-        ClienteID INT NOT NULL,
-        Direccion NVARCHAR (255) NOT NULL,
-        Ciudad NVARCHAR (100),
-        Estado NVARCHAR (100),
-        CodigoPostal NVARCHAR (10),
-        PRIMARY KEY (Id),
-        CONSTRAINT FK_DireccionCliente_Cliente FOREIGN KEY (ClienteID) REFERENCES Cliente (Id)
-    );
-
--- Insertar datos en la tabla Cliente
+-- DATA
 INSERT INTO
-    Cliente (NombreCliente, CorreoElectronico, FechaRegistro)
+    Rol (NombreRol, Descripcion)
 VALUES
     (
-        'Juan Pérez',
-        'juan.perez@email.com',
-        '2024-01-15'
+        'Administrador',
+        'Gestiona todos los aspectos del sistema'
     ),
+    ('Cliente', 'Usuario que realiza compras'),
     (
-        'María García',
-        'maria.garcia@email.com',
-        '2024-02-20'
-    ),
-    (
-        'Carlos López',
-        'carlos.lopez@email.com',
-        '2024-03-10'
+        'Proveedor',
+        'Usuario que abastece productos al sistema'
     );
 
--- Insertar datos en la tabla Categoria
+INSERT INTO
+    Usuario (
+        NombreUsuario,
+        CorreoElectronico,
+        Contrasena,
+        RolID,
+        FechaRegistro,
+        Telefono,
+        Estado
+    )
+VALUES
+    (
+        'admin',
+        'admin@tienda.com',
+        'hashed_password_1',
+        1,
+        '2023-01-01',
+        '123456789',
+        1
+    ),
+    (
+        'cliente1',
+        'cliente1@tienda.com',
+        'hashed_password_2',
+        2,
+        '2023-05-10',
+        '987654321',
+        1
+    ),
+    (
+        'proveedor1',
+        'proveedor1@tienda.com',
+        'hashed_password_3',
+        3,
+        '2023-06-15',
+        '555555555',
+        1
+    );
+
 INSERT INTO
     Categoria (NombreCategoria, Descripcion)
 VALUES
     (
-        'Ficción',
-        'Libros de ficción incluyendo novelas y cuentos'
+        'Electrónica',
+        'Dispositivos electrónicos y gadgets'
     ),
-    ('No ficción', 'Libros informativos y educativos'),
-    ('Infantil', 'Libros para niños y jóvenes');
+    ('Ropa', 'Prendas de vestir para todas las edades'),
+    (
+        'Hogar',
+        'Artículos para el hogar y la decoración'
+    ),
+    ('Deportes', 'Equipamiento y ropa deportiva');
 
--- Insertar datos en la tabla Proveedor
 INSERT INTO
     Proveedor (Telefono, CorreoElectronico, Direccion)
 VALUES
     (
-        '555-1234',
-        'proveedor1@email.com',
-        'Calle Principal 123'
+        '555123456',
+        'contacto@proveedor1.com',
+        'Av. Central #123'
     ),
     (
-        '555-5678',
-        'proveedor2@email.com',
-        'Avenida Central 456'
+        '555987654',
+        'ventas@proveedor2.com',
+        'Calle Falsa #456'
+    ),
+    (
+        '555654321',
+        'info@proveedor3.com',
+        'Av. Industrial #789'
     );
 
--- Insertar datos en la tabla Producto
 INSERT INTO
     Producto (
         NombreProducto,
@@ -270,55 +276,100 @@ INSERT INTO
     )
 VALUES
     (
-        'El Quijote',
-        'Clásico de la literatura española',
-        25.99,
+        'Smartphone X1',
+        'Teléfono inteligente con pantalla OLED',
+        699.99,
         50,
         1,
-        '2024-01-01',
+        '2023-07-01',
         1
     ),
     (
-        'Historia del Mundo',
-        'Libro de historia general',
-        35.50,
+        'Laptop Gamer Y2',
+        'Laptop de alto rendimiento para videojuegos',
+        1299.99,
         30,
+        1,
+        '2023-07-05',
+        1
+    ),
+    (
+        'Camisa Casual',
+        'Camisa de algodón para uso diario',
+        19.99,
+        100,
         2,
-        '2024-02-01',
+        '2023-06-20',
         2
     ),
     (
-        'Cuentos Infantiles',
-        'Colección de cuentos para niños',
-        15.75,
-        100,
+        'Pantalón Deportivo',
+        'Pantalón elástico para actividades físicas',
+        29.99,
+        75,
+        4,
+        '2023-06-25',
+        2
+    ),
+    (
+        'Silla Ergonomica',
+        'Silla con soporte lumbar y ajustable',
+        149.99,
+        20,
         3,
-        '2024-03-01',
-        1
+        '2023-07-10',
+        3
+    ),
+    (
+        'Cafetera Automática',
+        'Máquina para café con múltiples funciones',
+        89.99,
+        15,
+        3,
+        '2023-07-15',
+        3
     );
 
--- Insertar datos en la tabla Carrito
 INSERT INTO
-    Carrito (ClienteID, FechaCreacion, EstadoCarrito)
+    Sucursal (NombreSucursal, Direccion)
 VALUES
-    (1, '2024-09-01', 'Activo'),
-    (2, '2024-09-05', 'Completado');
+    ('Sucursal Central', 'Av. Central #123'),
+    ('Sucursal Norte', 'Av. Norte #456'),
+    ('Sucursal Sur', 'Av. Sur #789');
 
--- Insertar datos en la tabla DetalleCarrito
+INSERT INTO
+    Inventario (
+        ProductoID,
+        CantidadEntrante,
+        FechaEntrada,
+        ProveedorID
+    )
+VALUES
+    (1, 20, '2023-07-01', 1),
+    (2, 15, '2023-07-05', 1),
+    (3, 50, '2023-06-20', 2),
+    (4, 30, '2023-06-25', 2),
+    (5, 10, '2023-07-10', 3),
+    (6, 5, '2023-07-15', 3);
+
+INSERT INTO
+    Carrito (UsuarioID, FechaCreacion, EstadoCarrito)
+VALUES
+    (2, '2023-08-01', 'Activo'),
+    (2, '2023-08-02', 'Finalizado');
+
 INSERT INTO
     DetalleCarrito (CarritoID, ProductoID, Cantidad, PrecioUnitario)
 VALUES
-    (1, 1, 2, 25.99),
-    (1, 3, 1, 15.75),
-    (2, 2, 1, 35.50);
+    (1, 1, 1, 699.99),
+    (1, 3, 2, 19.99),
+    (2, 2, 1, 1299.99);
 
--- Insertar datos en la tabla Compra
 INSERT INTO
-    Compra (FechaCompra, ClienteID, TotalCompra, Estado)
+    Compra (UsuarioID, FechaCompra, TotalCompra, Estado)
 VALUES
-    ('2024-09-10', 2, 35.50, 'Completada');
+    (2, '2023-08-02', 1339.97, 'Completada');
 
--- Insertar datos en la tabla DetalleCompra
 INSERT INTO
     DetalleCompra (
         CompraID,
@@ -328,9 +379,10 @@ INSERT INTO
         Subtotal
     )
 VALUES
-    (1, 2, 1, 35.50, 35.50);
+    (1, 1, 1, 699.99, 699.99),
+    (1, 3, 2, 19.99, 39.98),
+    (1, 2, 1, 1299.99, 1299.99);
 
--- Insertar datos en la tabla Cupon
 INSERT INTO
     Cupon (
         CodigoCupon,
@@ -341,69 +393,25 @@ INSERT INTO
     )
 VALUES
     (
-        'VERANO2024',
-        'Descuento de verano',
+        'DESCUENTO10',
+        '10% de descuento en toda la tienda',
         10.00,
-        '2024-08-31',
+        '2023-12-31',
+        'Activo'
+    ),
+    (
+        'ENVIOGRATIS',
+        'Envío gratis en compras mayores a $50',
+        0.00,
+        '2023-12-31',
         'Activo'
     );
 
--- Insertar datos en la tabla Empleado
 INSERT INTO
-    Empleado (
-        NombreEmpleado,
-        CorreoElectronico,
-        Telefono,
-        Cargo,
-        FechaContratacion
-    )
+    Envio (CompraID, SucursalID, FechaEnvio, EstadoEnvio)
 VALUES
-    (
-        'Ana Martínez',
-        'ana.martinez@libreria.com',
-        '555-9876',
-        'Vendedor',
-        '2024-01-01'
-    );
+    (1, 1, '2023-08-03', 'Enviado');
 
--- Insertar datos en la tabla Inventario
-INSERT INTO
-    Inventario (
-        ProductoID,
-        CantidadEntrante,
-        FechaEntrada,
-        ProveedorID
-    )
-VALUES
-    (1, 50, '2024-01-01', 1),
-    (2, 30, '2024-02-01', 2),
-    (3, 100, '2024-03-01', 1);
-
--- Insertar datos en la tabla PedidoProveedor
-INSERT INTO
-    PedidoProveedor (
-        ProveedorID,
-        FechaPedido,
-        EstadoPedido,
-        TotalPedido
-    )
-VALUES
-    (1, '2024-08-15', 'Pendiente', 1000.00);
-
--- Insertar datos en la tabla DetallePedidoProveedor
-INSERT INTO
-    DetallePedidoProveedor (
-        PedidoProveedorID,
-        ProductoID,
-        Cantidad,
-        PrecioUnitario,
-        Subtotal
-    )
-VALUES
-    (1, 1, 20, 20.00, 400.00),
-    (1, 3, 40, 15.00, 600.00);
-
--- Insertar datos en la tabla Promocion
 INSERT INTO
     Promocion (
         NombrePromocion,
@@ -415,47 +423,41 @@ INSERT INTO
     )
 VALUES
     (
-        'Oferta Verano',
-        'Descuento en libros de ficción',
-        '2024-06-01',
-        '2024-08-31',
-        15.00,
+        'Black Friday',
+        'Descuento especial por Black Friday',
+        '2023-11-01',
+        '2023-11-30',
+        20.00,
         1
-    );
-
--- Insertar datos en la tabla Sucursal
-INSERT INTO
-    Sucursal (NombreSucursal, Direccion)
-VALUES
-    ('Sucursal Centro', 'Plaza Mayor 1');
-
--- Insertar datos en la tabla Envio
-INSERT INTO
-    Envio (CompraID, SucursalID, FechaEnvio, EstadoEnvio)
-VALUES
-    (1, 1, '2024-09-11', 'En camino');
-
--- Insertar datos en la tabla DireccionCliente
-INSERT INTO
-    DireccionCliente (
-        ClienteID,
-        Direccion,
-        Ciudad,
-        Estado,
-        CodigoPostal
-    )
-VALUES
-    (
-        1,
-        'Calle Alegría 123',
-        'Madrid',
-        'Madrid',
-        '28001'
     ),
     (
-        2,
-        'Avenida Libertad 456',
-        'Barcelona',
-        'Cataluña',
-        '08001'
+        'Cyber Monday',
+        'Promoción exclusiva de tecnología',
+        '2023-11-27',
+        '2023-11-28',
+        15.00,
+        2
     );
+
+INSERT INTO
+    PedidoProveedor (
+        ProveedorID,
+        FechaPedido,
+        EstadoPedido,
+        TotalPedido
+    )
+VALUES
+    (1, '2023-07-01', 'Completado', 2000.00),
+    (2, '2023-07-05', 'Pendiente', 500.00);
+
+INSERT INTO
+    DetallePedidoProveedor (
+        PedidoProveedorID,
+        ProductoID,
+        Cantidad,
+        PrecioUnitario,
+        Subtotal
+    )
+VALUES
+    (1, 1, 20, 100.00, 2000.00),
+    (2, 3, 50, 10.00, 500.00);

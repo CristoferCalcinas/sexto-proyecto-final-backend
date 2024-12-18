@@ -62,7 +62,7 @@ public class ProductoRepository : IProductoRepository
     {
         try
         {
-            IQueryable<Producto> productos = _context.Productos.Include(producto => producto.Categoria);
+            IQueryable<Producto> productos = _context.Productos.AsNoTracking().Include(producto => producto.Categoria);
             return Task.FromResult(productos);
         }
         catch (Exception ex)
@@ -88,6 +88,77 @@ public class ProductoRepository : IProductoRepository
         }
     }
 
+    public async Task<List<Producto>> ReduceProductQuantityAsync(List<ReduceProductQuantity> reduceProductQuantity, int usuarioId)
+    {
+        await using var transaction = await _context.Database.BeginTransactionAsync();
+
+        try
+        {
+            // Obtener todos los productos en una sola consulta
+            var productoIds = reduceProductQuantity.Select(r => r.ProductoId).Distinct().ToList();
+            var productos = await _context.Productos
+                .Where(p => productoIds.Contains(p.Id))
+                .ToDictionaryAsync(p => p.Id, p => p);
+
+            var productosActualizados = new List<Producto>();
+            decimal totalSummary = 0;
+
+            // Validar stock y calcular total en una sola pasada
+            foreach (var reduction in reduceProductQuantity)
+            {
+                if (!productos.TryGetValue(reduction.ProductoId, out var producto))
+                {
+                    throw new ArgumentException($"Producto con ID {reduction.ProductoId} no encontrado.");
+                }
+
+                if (producto.CantidadStock < reduction.Cantidad)
+                {
+                    throw new InvalidOperationException(
+                        $"Stock insuficiente para el producto {producto.NombreProducto}. " +
+                        $"Stock actual: {producto.CantidadStock}, Cantidad solicitada: {reduction.Cantidad}");
+                }
+
+                totalSummary += producto.Precio * reduction.Cantidad;
+                producto.CantidadStock -= reduction.Cantidad;
+                productosActualizados.Add(producto);
+            }
+
+            var compra = new Compra
+            {
+                Estado = "Pendiente",
+                FechaCompra = DateOnly.FromDateTime(DateTime.Now),
+                TotalCompra = totalSummary,
+                UsuarioId = usuarioId
+            };
+
+            // Agregar la compra primero para obtener su ID
+            await _context.Compras.AddAsync(compra);
+            await _context.SaveChangesAsync();
+
+            // Crear detalles de compra
+            var detallesCompra = reduceProductQuantity.Select(reduction => new DetalleCompra
+            {
+                CompraId = compra.Id,
+                ProductoId = reduction.ProductoId,
+                Cantidad = reduction.Cantidad,
+                PrecioUnitario = productos[reduction.ProductoId].Precio,
+                Subtotal = productos[reduction.ProductoId].Precio * reduction.Cantidad
+            }).ToList();
+
+            await _context.DetalleCompras.AddRangeAsync(detallesCompra);
+            await _context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+
+            return productosActualizados;
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+    
     public async Task<List<Producto>> SearchProductsByNameAsync(string textSearch)
     {
         try

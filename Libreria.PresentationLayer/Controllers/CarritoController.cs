@@ -53,7 +53,7 @@ namespace Libreria.PresentationLayer.Controllers
             {
                 Carrito newCarritoCompra = new Carrito
                 {
-                    ClienteId = carritoCompra.ClienteId,
+                    UsuarioId = carritoCompra.UsuarioId,
                     FechaCreacion = carritoCompra.FechaCreación,
                     EstadoCarrito = carritoCompra.EstadoCarrito,
                 };
@@ -76,7 +76,7 @@ namespace Libreria.PresentationLayer.Controllers
                 Carrito newCarritoCompra = new Carrito
                 {
                     Id = carritoCompra.Id,
-                    ClienteId = carritoCompra.ClienteId,
+                    UsuarioId = carritoCompra.UsuarioId,
                     FechaCreacion = carritoCompra.FechaCreación,
                     EstadoCarrito = carritoCompra.EstadoCarrito,
                 };
@@ -128,6 +128,20 @@ namespace Libreria.PresentationLayer.Controllers
             {
                 var carritoCompra = await _service.GetLastCarritoCompra(clienteId);
                 return Ok(carritoCompra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch("changeState")]
+        public async Task<IActionResult> ChangeStateCarritoCompra([FromBody] ChangeStateCarritoCompraViewModel carritoCompraId)
+        {
+            try
+            {
+                var result = await _service.ChangeStateCarritoCompra(carritoCompraId.CarritoId);
+                return Ok(result);
             }
             catch (Exception ex)
             {

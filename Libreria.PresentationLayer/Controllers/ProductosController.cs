@@ -2,6 +2,7 @@ using Libreria.BusinessLogicLayer.Servicios.Contracts;
 using Libreria.Models;
 using Libreria.PresentationLayer.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Libreria.PresentationLayer.Controllers
 {
@@ -98,6 +99,27 @@ namespace Libreria.PresentationLayer.Controllers
         {
             var productos = await _service.GetProductosByName(nameProduct);
             return Ok(productos);
+        }
+
+        [HttpPatch("reduceToCart")]
+        public async Task<IActionResult> ReduceProductQuantity([FromBody] List<ReduceProductQuantity> reduceProductQuantityList, int usuarioId)
+        {
+            try
+            {
+                if(reduceProductQuantityList.IsNullOrEmpty())
+                    return BadRequest("La lista de productos a reducir no puede ser nula o vacía");
+
+                if(reduceProductQuantityList.Any(x => x.Cantidad <= 0))
+                    return BadRequest("La cantidad de productos a reducir debe ser mayor a 0");
+
+                var productos = await _service.ReduceProductQuantity(reduceProductQuantityList, usuarioId);
+                return Ok(productos);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
     }
 }
